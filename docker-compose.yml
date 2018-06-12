@@ -1,0 +1,25 @@
+version: "3.1"
+
+services:
+  db:
+    image: mysql:5.7.22
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 0123456789
+    ports: 
+    - "3307:3306"
+    volumes:
+      - ./db/data/:/var/lib/mysql
+  redis:
+    image: redis
+    restart: always
+    ports: 
+    - "6379:6379"
+  ci:
+    image: jenkins
+    restart: always
+    ports: 
+    - "8081:8080"
+    - "50000:50000"
+    volumes:
+      - ./ci/data/:/var/jenkins_home
