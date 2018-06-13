@@ -13,7 +13,7 @@ angular.module('CarRental.controllers', [])
     			,'dataFilter': function(data){
     		            var json = jQuery.parseJSON( data );
     		            json.recordsTotal = json.totalElements;
-    		            json.recordsFiltered = json.numberOfElements;
+    		            json.recordsFiltered = json.totalElements;
 
     		            return JSON.stringify( json ); // return JSON string
     		        }	

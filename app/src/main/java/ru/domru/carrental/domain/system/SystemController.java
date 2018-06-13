@@ -1,9 +1,12 @@
 package ru.domru.carrental.domain.system;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,8 +49,12 @@ public class SystemController {
 		&_=1528901158445*/
 	
 	@RequestMapping("/user/list")
-	public Page<User> userList() {
-		return userRepository.findAll(new PageRequest(0, 20));
-	}	
+	public Page<User> userList(
+			@RequestParam Optional<Integer> length, @RequestParam Optional<Integer> start) {
+
+		int page = start.orElse(0)/length.orElse(10);
+
+		return userRepository.findAll(PageRequest.of(page, length.orElse(10)));
+	}
 
 }
