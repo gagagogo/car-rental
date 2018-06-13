@@ -1,8 +1,9 @@
 'use strict';
-angular.module('CarRental', [
-	  'CarRental.services',
+var CarRental = angular.module('CarRental', [
+	  'ngRoute',
+	  'datatables',
 	  'CarRental.controllers',
-	  'ngRoute'
+	  'CarRental.services'
 	])
   .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
@@ -11,11 +12,15 @@ angular.module('CarRental', [
       $routeProvider.
         when('/login', {
         	templateUrl: 'partials/system/login.html',
-        	controller:	'/login'
+        	controller:	'login'
         }).
         when('/index', {
         	templateUrl: 'partials/system/index.html',
-        	controller:	'/index'
+        	controller:	'index'
+        }).        
+        when('/user', {
+        	templateUrl: 'partials/system/user.html',
+        	controller:	'user'
         }).        
         otherwise('/index');
     }

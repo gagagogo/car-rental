@@ -1,3 +1,2 @@
 'use strict';
-angular.module('CarRental.services', [
-	]);
+angular.module('CarRental.services', []);

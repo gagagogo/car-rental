@@ -17,7 +17,7 @@ import ru.domru.carrental.domain.vehicle.Vehicle;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "RentalPoint.findAll", query = "select o from RentalPoint o") })
-@Table(name = "RENTAL_POINT")
+@Table(name = "`RENTAL_POINT`")
 public class RentalPoint implements Serializable {
     private String address;
     @Id

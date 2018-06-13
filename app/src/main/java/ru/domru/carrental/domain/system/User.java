@@ -1,7 +1,6 @@
 package ru.domru.carrental.domain.system;
 
 import java.io.Serializable;
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,11 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 
 @Entity
+@Table(name="\"USER\"")
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "select o from User o") })
 public class User implements Serializable {
     private static final long serialVersionUID = 63592899178651170L;
+    
+    @Column(name = "DESCR", nullable = false)
     private String descr;
     @Id
     @Column(name = "ID_USER", nullable = false)

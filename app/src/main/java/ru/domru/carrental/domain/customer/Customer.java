@@ -11,11 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import ru.domru.carrental.domain.rental.Rental;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Customer.findAll", query = "select o from Customer o") })
+@Table(name="`CUSTOMER`")
 public class Customer implements Serializable {
     private String descr;
     @Id

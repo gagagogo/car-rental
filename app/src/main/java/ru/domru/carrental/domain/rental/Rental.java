@@ -15,12 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import ru.domru.carrental.domain.customer.Customer;
 import ru.domru.carrental.domain.vehicle.Vehicle;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Rental.findAll", query = "select o from Rental o") })
+@Table(name="`RENTAL`")
 public class Rental implements Serializable {
     @Id
     @Column(name = "ID_RENTAL", nullable = false)

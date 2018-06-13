@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "VehicleModel.findAll", query = "select o from VehicleModel o") })
-@Table(name = "VEHICLE_MODEL")
+@Table(name = "`VEHICLE_MODEL`")
 public class VehicleModel implements Serializable {
     private String descr;
     @Id
