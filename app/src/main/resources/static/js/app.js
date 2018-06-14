@@ -22,6 +22,10 @@ var CarRental = angular.module('CarRental', [
         	templateUrl: 'partials/system/user.html',
         	controller:	'user'
         }).        
+        when('/user/create', {
+        	templateUrl: 'partials/system/userForm.html',
+        	controller:	'user'
+        }).
         otherwise('/index');
     }
   ]);

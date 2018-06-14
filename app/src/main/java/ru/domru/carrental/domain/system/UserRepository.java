@@ -1,7 +1,7 @@
 package ru.domru.carrental.domain.system;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 
-public interface UserRepository extends PagingAndSortingRepository<User, Integer> {
+public interface UserRepository extends DataTablesRepository<User, Integer> {
 
 }

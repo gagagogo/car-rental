@@ -2,21 +2,15 @@
 
 angular.module('CarRental.controllers', [])
 .controller('login',['$scope',function($scope){}])
-.controller('user',['$scope','$window','DTColumnBuilder',function($scope,$window,DTColumnBuilder){
+.controller('user',['$scope','$window','DTColumnBuilder','$http',function($scope,$window,DTColumnBuilder,$http){
     var vm = this;
     vm.dtOptions = {
     		'serverSide': true,
     		"processing": true,
     		'ajax':{
-    			'url':'system/user/list'
-    			,'dataSrc':"content"
-    			,'dataFilter': function(data){
-    		            var json = jQuery.parseJSON( data );
-    		            json.recordsTotal = json.totalElements;
-    		            json.recordsFiltered = json.totalElements;
-
-    		            return JSON.stringify( json ); // return JSON string
-    		        }	
+    			'contentType': 'application/json',
+    			'url':'system/user/list',
+    			'dataSrc':"data"
     			}
     	};
 
@@ -25,6 +19,52 @@ angular.module('CarRental.controllers', [])
         DTColumnBuilder.newColumn('name').withTitle('Login'),
         DTColumnBuilder.newColumn('descr').withTitle('Descr')
     ];
+    
+	$scope.usernew = {
+			"name":"",
+			"descr":"",
+			"pass":""
+	};
+	$scope.creteUserSubmit = function(){
+		$http({
+			  "method"  : 'POST',
+			  "url"     : '/user/create',
+			  "data"    : JSON.stringify($scope.usernew) 
+		})
+		.success(function(data) {
+			console.log(data);
+		});
+	};
+
 	
 }])
-.controller('index',['$scope',function($scope){}])
+.controller('index',['$scope',function($scope){}]);
+/*.controller('userCreate',['$scope','$http',function($scope,$http){
+	$scope.user = {
+			"name":"",
+			"descr":"",
+			"pass":""
+	};
+	$scope.title = "Create user";
+	
+	$scope.sbmt = function(){
+		/*$http({
+			  "method"  : 'POST',
+			  url     : '/user/create',
+			  data    : JSON.stringify($scope.user), 
+			 })
+			 .success(function(data) {
+			    console.log(data);
+			    if (!data.success) {
+			      // if not successful, bind errors to error variables
+			      $scope.errorName = data.errors.name;
+			      $scope.errorSuperhero = data.errors.superheroAlias;
+			    } else {
+			      // if successful, bind success message to message
+			      $scope.message = data.message;
+			    }
+			  });*/
+/*	}
+
+	};
+}]);*/

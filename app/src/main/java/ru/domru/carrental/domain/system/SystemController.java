@@ -1,13 +1,17 @@
 package ru.domru.carrental.domain.system;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 
 @RestController
 @RequestMapping("/system")
@@ -21,40 +25,15 @@ public class SystemController {
 		return new User();
 	}
 	
-	/*http://localhost:8080/system/user/list?
-		draw=1&
-		columns[0][data]=idUser
-		&columns[0][name]=
-		&columns[0][searchable]=true
-		&columns[0][orderable]=true
-		&columns[0][search][value]=&
-		columns[0][search][regex]=false
-		&columns[1][data]=name&columns[1][name]=
-		&columns[1][searchable]=true
-		&columns[1][orderable]=true
-		&columns[1][search][value]=
-		&columns[1][search][regex]=false
-		&columns[2][data]=descr
-		&columns[2][name]=
-		&columns[2][searchable]=true
-		&columns[2][orderable]=true
-		&columns[2][search][value]=
-		&columns[2][search][regex]=false
-		&order[0][column]=0
-		&order[0][dir]=asc
-		&start=0
-		&length=10
-		&search[value]=
-		&search[regex]=false
-		&_=1528901158445*/
+	@JsonView(DataTablesOutput.View.class)
+	@RequestMapping(value="/user/list")	
+	public DataTablesOutput<User> userList(@Valid DataTablesInput input) {
+		return userRepository.findAll(input);
+	}
 	
-	@RequestMapping("/user/list")
-	public Page<User> userList(
-			@RequestParam Optional<Integer> length, @RequestParam Optional<Integer> start) {
-
-		int page = start.orElse(0)/length.orElse(10);
-
-		return userRepository.findAll(PageRequest.of(page, length.orElse(10)));
+	@RequestMapping(value="/user/create")
+	public User userCteate(@Valid User user) {
+		return userRepository.save(user);
 	}
 
 }

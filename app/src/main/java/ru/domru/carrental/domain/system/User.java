@@ -3,6 +3,7 @@ package ru.domru.carrental.domain.system;
 import java.io.Serializable;
 import java.util.List;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 
 @Entity
@@ -19,18 +26,27 @@ import javax.persistence.Table;
 public class User implements Serializable {
     private static final long serialVersionUID = 63592899178651170L;
     
+    @JsonView(DataTablesOutput.View.class)
     @Column(name = "DESCR", nullable = false)
+    @NotNull
     private String descr;
+    
+    @JsonView(DataTablesOutput.View.class)
     @Id
     @Column(name = "ID_USER", nullable = false)
     private int idUser;
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<History> historyList;
     
+    @JsonView(DataTablesOutput.View.class)
     @Column(name = "NAME", nullable = false)
+    @NotNull
+    @Size(min=2, max=32)
     private String name;
 
+    @JsonView(DataTablesOutput.View.class)
     @Column(name = "PASS", nullable = false)
+    @NotNull
     private String password;
 
     public User() {
