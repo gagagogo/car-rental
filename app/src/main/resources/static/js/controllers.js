@@ -2,7 +2,7 @@
 
 angular.module('CarRental.controllers', [])
 .controller('login',['$scope',function($scope){}])
-.controller('user',['$scope','$window','DTColumnBuilder','$http',function($scope,$window,DTColumnBuilder,$http){
+.controller('user',['$scope','$window','DTColumnBuilder','$http','SessionService',function($scope,$window,DTColumnBuilder,$http,SessionService){
     var vm = this;
     vm.dtOptions = {
     		'serverSide': true,
@@ -35,7 +35,10 @@ angular.module('CarRental.controllers', [])
 			console.log(data);
 		});
 	};
-
+	
+	$scope.getUserAuthenticated = function(){
+		return SessionService.getUserAuthenticated();
+	}
 	
 }])
 .controller('index',['$scope',function($scope){}]);
