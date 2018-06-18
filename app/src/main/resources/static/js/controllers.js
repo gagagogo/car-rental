@@ -1,17 +1,7 @@
 'use strict';
 
-angular.module('CarRental.controllers', [])
-.controller('login',['$scope','SessionService',function($scope,SessionService){
-
-	$scope.username;
-	$scope.pass;
-	
-	$scope.login = function(){
-		SessionService.login($scope.login,$scope.pass);
-	};
-	
-}])
-.controller('user',['$scope','$window','DTColumnBuilder','$http','SessionService',function($scope,$window,DTColumnBuilder,$http,SessionService){
+angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor'])
+.controller('user',['$scope','$window','DTColumnBuilder','$http',function($scope,$window,DTColumnBuilder,$http){
     var vm = this;
     vm.dtOptions = {
     		'serverSide': true,
@@ -34,6 +24,7 @@ angular.module('CarRental.controllers', [])
 			"descr":"",
 			"pass":""
 	};
+
 	$scope.creteUserSubmit = function(){
 		$http({
 			  "method"  : 'POST',
@@ -45,10 +36,20 @@ angular.module('CarRental.controllers', [])
 		});
 	};
 	
-	$scope.getUserAuthenticated = function(){
-		return SessionService.getUserAuthenticated();
-	}
-	
+    $scope.logout=function () {
+        $http({
+            method: 'POST',
+            url: '/logout'
+        })
+        .then(function (response) {
+            if (response.status == 200) {
+            	window.location.reload();
+            }
+            else {
+            }
+        });
+}
+
 }])
 .controller('index',['$scope',function($scope){}]);
 /*.controller('userCreate',['$scope','$http',function($scope,$http){

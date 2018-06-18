@@ -2,12 +2,11 @@ package ru.domru.carrental.domain.system;
 
 import javax.validation.Valid;
 
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -30,10 +29,10 @@ public class SystemController {
 	public User userCteate(@Valid User user) {
 		return userService.save(user);
 	}
-
-	@RequestMapping(value="/logout")
-	public void userCteate() {
-
+	
+	@RequestMapping(value="/currentuser")
+	public User currentuser() throws AuthenticationException {
+		return userService.getCurrentUser();
 	}
 
 	
