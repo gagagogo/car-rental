@@ -8,6 +8,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -35,6 +38,7 @@ public class User implements Serializable {
     @Id
     @Column(name = "ID_USER", nullable = false)
     private int idUser;
+    
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<History> historyList;
     
@@ -49,6 +53,13 @@ public class User implements Serializable {
     @NotNull
     private String password;
 
+    @ManyToMany(cascade= {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "USER_ROLE", 
+    	joinColumns = @JoinColumn(name = "ID_USER"), 
+    	inverseJoinColumns = @JoinColumn(name = "ID_ROLE")
+    )
+    private List<Role> roleList;
+    
     public User() {
     }
 
@@ -107,6 +118,14 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public List<Role> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
 	}
     
     

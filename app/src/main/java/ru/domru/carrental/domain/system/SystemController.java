@@ -18,22 +18,23 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class SystemController {
 	
 	@Autowired
-	private UserRepository userRepository;
-	
-	@RequestMapping("/login")
-	public User login() {
-		return new User();
-	}
-	
+	UserService userService;
+		
 	@JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/user/list")	
-	public DataTablesOutput<User> userList(@Valid DataTablesInput input) {
-		return userRepository.findAll(input);
+	public DataTablesOutput<User> getUserList(@Valid DataTablesInput input) {
+		return userService.getUserList(input);
 	}
 	
 	@RequestMapping(value="/user/create")
 	public User userCteate(@Valid User user) {
-		return userRepository.save(user);
+		return userService.save(user);
 	}
 
+	@RequestMapping(value="/logout")
+	public void userCteate() {
+
+	}
+
+	
 }

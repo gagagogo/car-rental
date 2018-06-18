@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('CarRental.controllers', [])
-.controller('login',['$scope',function($scope){}])
+.controller('login',['$scope','SessionService',function($scope,SessionService){
+
+	$scope.username;
+	$scope.pass;
+	
+	$scope.login = function(){
+		SessionService.login($scope.login,$scope.pass);
+	};
+	
+}])
 .controller('user',['$scope','$window','DTColumnBuilder','$http','SessionService',function($scope,$window,DTColumnBuilder,$http,SessionService){
     var vm = this;
     vm.dtOptions = {
