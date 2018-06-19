@@ -1,9 +1,23 @@
 'use strict';
 
 angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor'])
-.controller('user',['$scope','$window','DTColumnBuilder','$http',function($scope,$window,DTColumnBuilder,$http){
-    var vm = this;
-    vm.dtOptions = {
+.controller('user',['$scope','$routeParams','$route','$http',function($scope,$routeParams,$route,$http){
+	
+	$scope.form_model = {
+		columns:{
+					'idUser':{'title':'ID','value':null}
+					,'name':{'title':'Login','value':null}
+					,'descr':{'title':'Full name','value':null}
+					,'pass':{'title':'Password','value':null}
+			}
+		,form_action_url:'/user/save'	
+	};
+	
+	$scope.saveFormSubmit= function(){};
+
+	
+	$scope.vm=
+		{dtOptions:{
     		'serverSide': true,
     		"processing": true,
     		'ajax':{
@@ -11,20 +25,16 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     			'url':'system/user/list',
     			'dataSrc':"data"
     			}
-    	};
-
-    vm.dtColumns = [
-        DTColumnBuilder.newColumn('idUser').withTitle('ID'),
-        DTColumnBuilder.newColumn('name').withTitle('Login'),
-        DTColumnBuilder.newColumn('descr').withTitle('Descr')
-    ];
-    
-	$scope.usernew = {
-			"name":"",
-			"descr":"",
-			"pass":""
-	};
-
+    	}
+    	,dtColumns:[
+    		{'data':'idUser','title':'ID',
+    			render: function ( data, type, row ) {return '<a href="#!/user/'+data+'/update">'+data+"</a>"}
+    		}
+    		,{'data':'name','title':'Login'}
+    		,{'data':'descr','title':'Descr'}
+	        ]
+		};
+	
 	$scope.creteUserSubmit = function(){
 		$http({
 			  "method"  : 'POST',

@@ -1,0 +1,8 @@
+<div class="jumbotron">
+		<form ng-submit="saveFormSubmit()">
+		<div class="form-group" ng-repeat="(key,element) in form_model.columns">
+		    <input type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="model[key].value">
+  		</div>
+  		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>

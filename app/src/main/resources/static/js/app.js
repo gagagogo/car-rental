@@ -6,7 +6,11 @@ window.routes =
         	controller:	'index',
         },
         '/user': {
-        	templateUrl: 'partials/system/user.html',
+        	templateUrl: 'partials/crud/list.html',
+        	controller:	'user',
+        },
+        '/user/:id/update': {
+        	templateUrl: 'partials/crud/save.html',
         	controller:	'user',
         },
         '/user/create': {
