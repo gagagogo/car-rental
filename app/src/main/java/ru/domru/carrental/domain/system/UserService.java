@@ -1,10 +1,13 @@
 package ru.domru.carrental.domain.system;
 
+import java.util.Optional;
+
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,15 +19,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
+	
+	private StandardPasswordEncoder encoder = new StandardPasswordEncoder();
 
 	@Transactional
 	public DataTablesOutput<User> getUserList(DataTablesInput input){
 		return userRepository.findAll(input);
 	}
-	
+
+	/**
+	 * Save user enity and encode plane password to sha255 hash
+	 * @return saved User entity
+	 * */
 	@Transactional
 	public User save(User user) {
-		return userRepository.save(user);
+		user.setPassword(encoder.encode(user.getPassword()));
+		user = userRepository.save(user);
+		user.setPassword("");
+		return user;
 	}
 	
 	@Transactional(readOnly = true)
@@ -39,6 +51,11 @@ public class UserService {
 		user.setPassword("********");
 		return user;
 	}
-	 
+	
+	@Transactional
+	public Optional<User> getUser(int idUser){
+		return userRepository.findById(idUser);
+	}
+
 	
 }

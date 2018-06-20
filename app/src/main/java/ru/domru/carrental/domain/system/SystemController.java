@@ -1,12 +1,17 @@
 package ru.domru.carrental.domain.system;
 
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -25,14 +30,18 @@ public class SystemController {
 		return userService.getUserList(input);
 	}
 	
-	@RequestMapping(value="/user/create")
-	public User userCteate(@Valid User user) {
+	@RequestMapping(value="/user/save")
+	public User userSave(@RequestBody @Valid User user) {
 		return userService.save(user);
 	}
 	
-	@RequestMapping(value="/currentuser")
-	public User currentuser() throws AuthenticationException {
-		return userService.getCurrentUser();
+	@RequestMapping(value="/user/{idUser}", method=RequestMethod.GET)
+	public User getUser(@PathVariable int idUser) {
+		Optional<User> user = userService.getUser(idUser);
+		if(!user.isPresent()) throw new EntityNotFoundException("Ivalid user id");
+		
+		user.get().setPassword("");
+		return user.get();		
 	}
 
 	

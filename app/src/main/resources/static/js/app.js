@@ -14,7 +14,7 @@ window.routes =
         	controller:	'user',
         },
         '/user/create': {
-        	templateUrl: 'partials/system/userForm.html',
+        	templateUrl: 'partials/crud/save.html',
         	controller:	'user',
         }
 };
@@ -22,7 +22,8 @@ window.routes =
 var CarRental = angular.module('CarRental', [
 	  'ngRoute',
 	  'datatables',
-	  'CarRental.controllers'
+	  'CarRental.controllers',
+	  'CarRental.services'
 	])
   .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {

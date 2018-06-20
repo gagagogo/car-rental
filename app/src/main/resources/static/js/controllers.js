@@ -1,19 +1,34 @@
 'use strict';
 
 angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor'])
-.controller('user',['$scope','$routeParams','$route','$http',function($scope,$routeParams,$route,$http){
+.controller('user',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
 	
 	$scope.form_model = {
 		columns:{
 					'idUser':{'title':'ID','value':null}
 					,'name':{'title':'Login','value':null}
 					,'descr':{'title':'Full name','value':null}
-					,'pass':{'title':'Password','value':null}
+					,'password':{'title':'Password','value':null}
 			}
-		,form_action_url:'/user/save'	
+		,form_action_url:'/user/save'
+		,message:""	
 	};
 	
-	$scope.saveFormSubmit= function(){};
+	if($routeParams.id){
+		$formUtils.loadModel(
+				$scope.form_model
+				,"/system/user/"+$routeParams.id
+				,$scope.form_model.message
+			);
+	}
+	
+	$scope.saveFormSubmit= function(){
+		$formUtils.save(
+				$scope.form_model
+				,"/system/user/save"
+				,$scope.form_model.message
+			);
+	};
 
 	
 	$scope.vm=
@@ -61,33 +76,7 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 }
 
 }])
+.controller('LocationCtrl',['$scope','$location','$window',function($scope,$location,$window){
+	$scope.$location = $location;
+}])
 .controller('index',['$scope',function($scope){}]);
-/*.controller('userCreate',['$scope','$http',function($scope,$http){
-	$scope.user = {
-			"name":"",
-			"descr":"",
-			"pass":""
-	};
-	$scope.title = "Create user";
-	
-	$scope.sbmt = function(){
-		/*$http({
-			  "method"  : 'POST',
-			  url     : '/user/create',
-			  data    : JSON.stringify($scope.user), 
-			 })
-			 .success(function(data) {
-			    console.log(data);
-			    if (!data.success) {
-			      // if not successful, bind errors to error variables
-			      $scope.errorName = data.errors.name;
-			      $scope.errorSuperhero = data.errors.superheroAlias;
-			    } else {
-			      // if successful, bind success message to message
-			      $scope.message = data.message;
-			    }
-			  });*/
-/*	}
-
-	};
-}]);*/
