@@ -16,6 +16,19 @@ window.routes =
         '/user/create': {
         	templateUrl: 'partials/crud/save.html',
         	controller:	'user',
+        },
+
+        '/vehicle/model': {
+        	templateUrl: 'partials/crud/list.html',
+        	controller:	'model',
+        },
+        '/vehicle/model/:id/update': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'model',
+        },
+        '/vehicle/model/create': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'model',
         }
 };
 

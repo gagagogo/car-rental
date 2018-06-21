@@ -1,7 +1,7 @@
 package ru.domru.carrental.domain.vehicle;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 
-public interface VehicleModelRepository extends CrudRepository<VehicleModel, Integer> {
+public interface VehicleModelRepository extends DataTablesRepository<VehicleModel, Integer> {
 
 }
