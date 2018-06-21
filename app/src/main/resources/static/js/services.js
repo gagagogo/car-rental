@@ -1,36 +1,44 @@
 angular.module('CarRental.services', ['spring-security-csrf-token-interceptor'])
-.factory('$formUtils',function($http,$window){
+.factory('$formUtils',function($http,$window,$location){
 	var formUtils = {
-			loadModel:function(formModel,url){
+			messages:[]
+			,getMessages:function(){
+				return this.messages;
+			}
+			,addMessage:function(msg){
+				this.getMessages().push(msg);
+			}
+			,cleanMessages(){
+				this.messages = [];
+			}
+			,loadModel:function(formModel,url){
 				$http({
 					  "method"  : 'GET',
 					  "url"     : url
 				})
 		    	.then(function successCallback(response) {
-		    		messageList= [];
 		    		if(response.status==200) {
 		    			for(column in formModel.columns){
 		    				formModel.columns[column].value = response.data[column];
 		    			}
 		    		}
 		    		else{
-		    			formModel.message = response.data.message;
+		    			formUtils.addMessage(response.data.message);
 		    		} 
 		    		
 		    	  }, function errorCallback(response) {
-		    		  formModel.message="Some thing wrong with request";
+		    		  formUtils.addMessage("Some thing wrong with request");
 		    	  });
 			}
-			,save(formModel,url){
+			,save(formModel,actionUrl,successUrl){
 				var data = {};
 				for(column in formModel.columns){
 					data[column] = formModel.columns[column].value; 
 	    		}
-
 					
 				$http({
 					  "method"  : 'POST'
-					  ,"url"    : url
+					  ,"url"    : actionUrl
 					  ,"data"	: JSON.stringify(data)
 					  ,"headers": {
 	                        "Content-Type": "application/json"
@@ -41,14 +49,15 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor'])
 		    			for(column in formModel.columns){
 		    				formModel.columns[column].value = response.data[column];
 		    			}
-		    			formModel.message = "User successfuly updated";
+		    			formUtils.addMessage("User successfuly saved");
+		    			$location.path(successUrl);
 		    		}
 		    		else{
-		    			formModel.message = response.data.message;
+		    			formUtils.addMessage(response.data.message);
 		    		} 
 		    		
 		    	  }, function errorCallback(response) {
-		    		  formModel.message="Some thing wrong with request";
+		    		  this.addMessage("Some thing wrong with request");
 		    	  });				
 			}
 	};

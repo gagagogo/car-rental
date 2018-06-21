@@ -1,4 +1,7 @@
 <div>
-	<a ng-controller="LocationCtrl" ng-href="#!{{$location.path()}}/create"><button class="btn btn-primary">Create new</button></a>
+	<div ng-controller="UtilCtrl">
+		<div class="alert alert-primary" role="alert"  ng-repeat="message in messages">{{message}}</div>  		
+	</div>
+	<a ng-controller="UtilCtrl" ng-href="#!{{$location.path()}}/create"><button class="btn btn-primary">Create new</button></a>
     <table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="row-border hover"></table>
 </div>

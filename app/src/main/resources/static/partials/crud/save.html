@@ -1,5 +1,7 @@
 <div class="jumbotron">
-		<div>{{form_model.message}}</div>
+		<div ng-controller="UtilCtrl">
+			<div class="alert alert-primary" role="alert"  ng-repeat="message in messages">{{message}}</div>  		
+		</div>
 		<form ng-submit="saveFormSubmit()">
 		<div class="form-group" ng-repeat="(key,element) in form_model.columns">
 		    <input type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value">

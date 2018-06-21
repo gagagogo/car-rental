@@ -3,6 +3,8 @@ package ru.domru.carrental.domain.system;
 import java.util.Optional;
 
 import org.apache.tomcat.websocket.AuthenticationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -20,6 +22,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	private static Logger log = LoggerFactory.getLogger(UserService.class);
+	
 	private StandardPasswordEncoder encoder = new StandardPasswordEncoder();
 
 	@Transactional
@@ -33,9 +37,9 @@ public class UserService {
 	 * */
 	@Transactional
 	public User save(User user) {
-		user.setPassword(encoder.encode(user.getPassword()));
+		String heshedPass = encoder.encode(user.getPassword());
+		user.setPassword(heshedPass);
 		user = userRepository.save(user);
-		user.setPassword("");
 		return user;
 	}
 	
@@ -44,15 +48,15 @@ public class UserService {
 		return userRepository.findUserByName(username);
 	}
 	
+	@Transactional(readOnly = true)
 	public User getCurrentUser() throws AuthenticationException {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName(); 
 		User user =  findUserByUsername(username);
 		if(user==null) throw new AuthenticationException("You are currently not authorized");
-		user.setPassword("********");
 		return user;
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Optional<User> getUser(int idUser){
 		return userRepository.findById(idUser);
 	}

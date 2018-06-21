@@ -23,24 +23,24 @@ public class SystemController {
 	
 	@Autowired
 	UserService userService;
-		
+	
 	@JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/user/list")	
 	public DataTablesOutput<User> getUserList(@Valid DataTablesInput input) {
 		return userService.getUserList(input);
 	}
 	
+	@JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/user/save")
 	public User userSave(@RequestBody @Valid User user) {
 		return userService.save(user);
 	}
 	
+	@JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/user/{idUser}", method=RequestMethod.GET)
 	public User getUser(@PathVariable int idUser) {
 		Optional<User> user = userService.getUser(idUser);
 		if(!user.isPresent()) throw new EntityNotFoundException("Ivalid user id");
-		
-		user.get().setPassword("");
 		return user.get();		
 	}
 

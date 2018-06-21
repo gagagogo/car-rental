@@ -5,29 +5,33 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 	
 	$scope.form_model = {
 		columns:{
-					'idUser':{'title':'ID','value':null}
-					,'name':{'title':'Login','value':null}
-					,'descr':{'title':'Full name','value':null}
-					,'password':{'title':'Password','value':null}
-			}
+			'idUser':{'title':'ID','value':null}
+			,'name':{'title':'Login','value':null}
+			,'descr':{'title':'Full name','value':null}
+			,'password':{'title':'Password','value':null}
+		}
 		,form_action_url:'/user/save'
 		,message:""	
 	};
 	
+	
+	
 	if($routeParams.id){
 		$formUtils.loadModel(
-				$scope.form_model
-				,"/system/user/"+$routeParams.id
-				,$scope.form_model.message
-			);
+			$scope.form_model
+			,"/system/user/"+$routeParams.id
+			,$scope.form_model.message
+		);
+	}else{
+		delete $scope.form_model.columns['idUser'];
 	}
 	
 	$scope.saveFormSubmit= function(){
 		$formUtils.save(
-				$scope.form_model
-				,"/system/user/save"
-				,$scope.form_model.message
-			);
+			$scope.form_model
+			,"/system/user/save"
+			,"/user"
+		);
 	};
 
 	
@@ -39,7 +43,7 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     			'contentType': 'application/json',
     			'url':'system/user/list',
     			'dataSrc':"data"
-    			}
+    		}
     	}
     	,dtColumns:[
     		{'data':'idUser','title':'ID',
@@ -49,17 +53,6 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     		,{'data':'descr','title':'Descr'}
 	        ]
 		};
-	
-	$scope.creteUserSubmit = function(){
-		$http({
-			  "method"  : 'POST',
-			  "url"     : '/user/create',
-			  "data"    : JSON.stringify($scope.usernew) 
-		})
-		.success(function(data) {
-			console.log(data);
-		});
-	};
 	
     $scope.logout=function () {
         $http({
@@ -73,10 +66,21 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
             else {
             }
         });
-}
+    }
 
 }])
-.controller('LocationCtrl',['$scope','$location','$window',function($scope,$location,$window){
+.controller('UtilCtrl',['$scope','$location','$window','$timeout','$formUtils',function($scope,$location,$window,$timeout,$formUtils){
+
 	$scope.$location = $location;
+
+	$scope.messages = showMessages();
+
+	function showMessages() {
+      $timeout(function () {
+        	$formUtils.cleanMessages();
+        }, 5000);
+      return $formUtils.getMessages();
+    }
+
 }])
 .controller('index',['$scope',function($scope){}]);
