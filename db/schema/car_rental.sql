@@ -1,31 +1,35 @@
 -- --------------------------------------------------------
--- Хост:                         127.0.0.1
+-- Хост:                         localhost
 -- Версия сервера:               5.7.22 - MySQL Community Server (GPL)
--- ОС Сервера:                   Linux
--- HeidiSQL Версия:              9.3.0.4984
+-- Операционная система:         Linux
+-- HeidiSQL Версия:              9.5.0.5196
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
 
 -- Дамп структуры базы данных car_rental
 CREATE DATABASE IF NOT EXISTS `car_rental` /*!40100 DEFAULT CHARACTER SET utf16 */;
 USE `car_rental`;
 
-
 -- Дамп структуры для таблица car_rental.CUSTOMER
+DROP TABLE IF EXISTS `CUSTOMER`;
 CREATE TABLE IF NOT EXISTS `CUSTOMER` (
-  `ID_CUSTOMER` int(11) NOT NULL,
+  `ID_CUSTOMER` int(11) NOT NULL AUTO_INCREMENT,
   `DESCR` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_CUSTOMER`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.CUSTOMER: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `CUSTOMER` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CUSTOMER` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.HISTORY
+DROP TABLE IF EXISTS `HISTORY`;
 CREATE TABLE IF NOT EXISTS `HISTORY` (
   `ID_HISTORY` int(11) NOT NULL AUTO_INCREMENT,
   `ID_TABLE` int(11) NOT NULL,
@@ -37,18 +41,20 @@ CREATE TABLE IF NOT EXISTS `HISTORY` (
   `VAL_TO` varchar(50) NOT NULL,
   `ID_RECORD` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID_HISTORY`),
+  KEY `HISTORY_FK_USER_BY` (`CREATE_BY`),
   KEY `HISTORY_INDEX_REC_TAB` (`ID_TABLE`,`ID_RECORD`),
   KEY `HISTORY_INDEX_RECORD` (`ID_RECORD`),
-  KEY `HISTORY_FK_USER_BY` (`CREATE_BY`),
   CONSTRAINT `HISTORY_FK_USER_BY` FOREIGN KEY (`CREATE_BY`) REFERENCES `USER` (`ID_USER`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.HISTORY: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `HISTORY` DISABLE KEYS */;
+/*!40000 ALTER TABLE `HISTORY` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.RENTAL
+DROP TABLE IF EXISTS `RENTAL`;
 CREATE TABLE IF NOT EXISTS `RENTAL` (
-  `ID_RENTAL` int(11) NOT NULL,
+  `ID_RENTAL` int(11) NOT NULL AUTO_INCREMENT,
   `ID_CUSTOMER` int(11) NOT NULL,
   `ID_VEHICLE` varchar(255) NOT NULL,
   `RENTAL_START` datetime DEFAULT NULL,
@@ -59,42 +65,64 @@ CREATE TABLE IF NOT EXISTS `RENTAL` (
   CONSTRAINT `RENTAL_FK_CUSTOMER` FOREIGN KEY (`ID_CUSTOMER`) REFERENCES `CUSTOMER` (`ID_CUSTOMER`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.RENTAL: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `RENTAL` DISABLE KEYS */;
+/*!40000 ALTER TABLE `RENTAL` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.RENTAL_POINT
+DROP TABLE IF EXISTS `RENTAL_POINT`;
 CREATE TABLE IF NOT EXISTS `RENTAL_POINT` (
-  `ID_RENTAL_POINT` int(11) NOT NULL,
+  `ID_RENTAL_POINT` int(11) NOT NULL AUTO_INCREMENT,
   `ADDRESS` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_RENTAL_POINT`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.RENTAL_POINT: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `RENTAL_POINT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `RENTAL_POINT` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.ROLE
+DROP TABLE IF EXISTS `ROLE`;
 CREATE TABLE IF NOT EXISTS `ROLE` (
   `ID_ROLE` int(11) NOT NULL AUTO_INCREMENT,
   `ROLE` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`ID_ROLE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COMMENT='Роли пользователей';
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.ROLE: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `ROLE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ROLE` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.USER
+DROP TABLE IF EXISTS `USER`;
 CREATE TABLE IF NOT EXISTS `USER` (
-  `ID_USER` int(11) NOT NULL,
+  `ID_USER` int(11) NOT NULL AUTO_INCREMENT,
   `DESCR` varchar(255) DEFAULT NULL,
   `NAME` varchar(32) DEFAULT NULL,
-  `PASS` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`ID_USER`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf16;
+  `PASS` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`ID_USER`),
+  UNIQUE KEY `NAME` (`NAME`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.USER: ~12 rows (приблизительно)
+/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
+INSERT INTO `USER` (`ID_USER`, `DESCR`, `NAME`, `PASS`) VALUES
+	(1, 'Гаранин Алексей Владимирович', 'gaga', '7dd3e2ea3027569e8935f2e317134b1981f1c338f540adbe25525fcc5d3637506faece6cdfcc5f1e'),
+	(2, 'Викторов Григорий Юрьевич', 'rotor', 'b923ab32fd6ce082ceb34f542c218d5ec7f7b12d2b54e6e43143bfbb18c7cd4edfdab350ad946031'),
+	(3, 'Карпов Владислав Николаевич', 'repa12', 'aa6986dca587b487f686c70733c04b64bbe459286b4796be350de724ea6c09484afbe6d53fb8b9c9'),
+	(4, 'Гаранин Алексей Владимирович', 'gaga1', '2b0800ca35807103a6b4159b7c883dbbe488e75709b67193554d1e73ed3235a892def970c2e15ded'),
+	(5, 'Викторов Григорий Юрьевич', 'rotor333', 'bff2f3e632f2310fe917873070721e724806e014630c3df6bddd98c1a52277a4f1d67f0080c9e1be'),
+	(6, 'Карпов Владислав Николаевич', 'repa125', '453337c3a6c2c7c6ca6f9be6a9161ab3ec97f349c6162b9576bd759a100a68d3e6f8abe45285c862'),
+	(7, 'Гаранин Алексей Владимирович', 'gaga2', '0123456789'),
+	(8, 'Викторов Григорий Юрьевич', 'rotor2', 'Fus24q30'),
+	(9, 'Карпов Владислав Николаевич', 'repa122', 'Tdfd340Fr'),
+	(11, 'Викторов Григорий Юрьевич', 'rotor23', 'Fus24q30'),
+	(12, 'Ivanov German', 'repa121', 'Tdfd340Fr'),
+	(13, 'Никольский Игорь Варфаломеевич', 'gaga11', '59981ebf181e56f4914b333961efb954e0bf1c160a03762eec4b357acd7a2881c175603602daef62');
+/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.USER_ROLE
+DROP TABLE IF EXISTS `USER_ROLE`;
 CREATE TABLE IF NOT EXISTS `USER_ROLE` (
   `ID_USER` int(11) NOT NULL,
   `ID_ROLE` int(11) NOT NULL,
@@ -104,12 +132,14 @@ CREATE TABLE IF NOT EXISTS `USER_ROLE` (
   CONSTRAINT `FK_USER_ROLE_USER` FOREIGN KEY (`ID_USER`) REFERENCES `USER` (`ID_USER`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.USER_ROLE: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `USER_ROLE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `USER_ROLE` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.VEHICLE
+DROP TABLE IF EXISTS `VEHICLE`;
 CREATE TABLE IF NOT EXISTS `VEHICLE` (
-  `ID_VEHICLE` int(10) NOT NULL,
+  `ID_VEHICLE` int(10) NOT NULL AUTO_INCREMENT,
   `REG_NUM` varchar(255) NOT NULL,
   `ID_VEHICLE_TYPE` int(11) NOT NULL,
   `ID_VEHICLE_MODEL` int(11) NOT NULL,
@@ -126,27 +156,34 @@ CREATE TABLE IF NOT EXISTS `VEHICLE` (
   CONSTRAINT `VEHICLE_FK_TYPE` FOREIGN KEY (`ID_VEHICLE_TYPE`) REFERENCES `VEHICLE_TYPE` (`ID_VEHICLE_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.VEHICLE: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `VEHICLE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `VEHICLE` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.VEHICLE_MODEL
+DROP TABLE IF EXISTS `VEHICLE_MODEL`;
 CREATE TABLE IF NOT EXISTS `VEHICLE_MODEL` (
-  `ID_VEHICLE_MODEL` int(11) NOT NULL,
+  `ID_VEHICLE_MODEL` int(11) NOT NULL AUTO_INCREMENT,
   `DESCR` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`ID_VEHICLE_MODEL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
-
+-- Дамп данных таблицы car_rental.VEHICLE_MODEL: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `VEHICLE_MODEL` DISABLE KEYS */;
+/*!40000 ALTER TABLE `VEHICLE_MODEL` ENABLE KEYS */;
 
 -- Дамп структуры для таблица car_rental.VEHICLE_TYPE
+DROP TABLE IF EXISTS `VEHICLE_TYPE`;
 CREATE TABLE IF NOT EXISTS `VEHICLE_TYPE` (
-  `ID_VEHICLE_TYPE` int(11) NOT NULL,
+  `ID_VEHICLE_TYPE` int(11) NOT NULL AUTO_INCREMENT,
   `DESCR` varchar(255) NOT NULL,
   PRIMARY KEY (`ID_VEHICLE_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16;
 
--- Экспортируемые данные не выделены.
+-- Дамп данных таблицы car_rental.VEHICLE_TYPE: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `VEHICLE_TYPE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `VEHICLE_TYPE` ENABLE KEYS */;
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
