@@ -13,15 +13,24 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 @NamedQueries({ @NamedQuery(name = "VehicleType.findAll", query = "select o from VehicleType o") })
 @Table(name = "`VEHICLE_TYPE`")
 public class VehicleType implements Serializable {
-    @Column(nullable = false)
+    
+	@JsonView(DataTablesOutput.View.class)
+	@Column(nullable = false)
     private String descr;
-    @Id
+    
+	@JsonView(DataTablesOutput.View.class)    
+	@Id
     @Column(name = "ID_VEHICLE_TYPE", nullable = false)
     private int idVehicleType;
+
     @OneToMany(mappedBy = "vehicleType", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Vehicle> vehicleList;
 

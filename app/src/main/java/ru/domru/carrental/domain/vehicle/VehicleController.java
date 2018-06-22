@@ -24,47 +24,70 @@ public class VehicleController {
 	@Autowired
 	VehicleService vehicleService;
 
-	@JsonView(DataTablesOutput.View.class)
+
+	// MODELS
+    @JsonView(DataTablesOutput.View.class)	
 	@RequestMapping(value="/model/list")	
 	public DataTablesOutput<VehicleModel> getVehicleModelList(@Valid DataTablesInput input) {
 		return vehicleService.getVehicleModelList(input);
 	}
-	
-	@JsonView(DataTablesOutput.View.class)
+    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/model/save")
 	public VehicleModel vehicleModelSave(@RequestBody @Valid VehicleModel vehicleModel) {
 		return vehicleService.saveVehicleModel(vehicleModel);
 	}
 	
-	@JsonView(DataTablesOutput.View.class)
+    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/model/{idVehicleModel}", method=RequestMethod.GET)
 	public VehicleModel getVehicleModel(@PathVariable int idVehicleModel) {
 		Optional<VehicleModel> model = vehicleService.getVehicleModel(idVehicleModel);
-		if(!model.isPresent()) throw new EntityNotFoundException("Ivalid user id");
+		if(!model.isPresent()) throw new EntityNotFoundException("Ivalid id");
 		return model.get();		
 	}
 
 
 	
-	
-	@JsonView(DataTablesOutput.View.class)
+	//TYPES
+    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/type/list")	
 	public DataTablesOutput<VehicleType> getVehicleTypeList(@Valid DataTablesInput input) {
 		return vehicleService.getVehicleTypeList(input);
 	}
 	
-	@JsonView(DataTablesOutput.View.class)
+    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/type/save")
 	public VehicleType vehicleTypeSave(@RequestBody @Valid VehicleType vehicleType) {
-		return vehicleService.saveVehicleModel(vehicleType);
+		return vehicleService.saveVehicleType(vehicleType);
 	}
 	
-	@JsonView(DataTablesOutput.View.class)
+    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/type/{idVehicleType}", method=RequestMethod.GET)
 	public VehicleType getVehicleType(@PathVariable int idVehicleType) {
 		Optional<VehicleType> type = vehicleService.getVehicleType(idVehicleType);
-		if(!type.isPresent()) throw new EntityNotFoundException("Ivalid user id");
+		if(!type.isPresent()) throw new EntityNotFoundException("Ivalid id");
 		return type.get();		
+	}
+	
+	
+	//VEHICLE
+    @JsonView(DataTablesOutput.View.class)
+	@RequestMapping(value="/list")	
+	public DataTablesOutput<Vehicle> getVehicleList(@Valid DataTablesInput input) {
+		return vehicleService.getVehicleList(input);
+	}
+	
+    @JsonView(DataTablesOutput.View.class)
+	@RequestMapping(value="/save")
+	public Vehicle vehicleSave(@RequestBody @Valid Vehicle vehicle) {
+		return vehicleService.saveVehicle(vehicle);
+	}
+	
+    @JsonView(DataTablesOutput.View.class)
+	@RequestMapping(value="/{idVehicle}", method=RequestMethod.GET)
+	public Vehicle getVehicle(@PathVariable int idVehicle) {
+		Optional<Vehicle> vehicle = vehicleService.getVehicle(idVehicle);
+		if(!vehicle.isPresent()) throw new EntityNotFoundException("Ivalid id");
+		return vehicle.get();		
 	}
 
 }

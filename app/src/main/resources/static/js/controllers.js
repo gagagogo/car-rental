@@ -3,6 +3,8 @@
 angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor'])
 .controller('user',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
 	
+	$scope.title="User";
+	
 	$scope.form_model = {
 		columns:{
 			'idUser':{'title':'ID','value':null}
@@ -71,6 +73,8 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 }])
 .controller('model',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
 	
+	$scope.title="Vehicle model";
+	
 	$scope.form_model = {
 		columns:{
 			'idVehicleModel':{'title':'ID','value':null}
@@ -120,6 +124,59 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 		};
 	
 }])
+.controller('type',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
+	
+	$scope.title="Vehicle type";
+	
+	$scope.form_model = {
+		columns:{
+			'idVehicleType':{'title':'ID','value':null}
+			,'descr':{'title':'Full name','value':null}
+		}
+		,form_action_url:'/vehicle/type/save'
+		,message:""	
+	};
+	
+	
+	
+	if($routeParams.id){
+		$formUtils.loadModel(
+			$scope.form_model
+			,"/vehicle/type/"+$routeParams.id
+			,$scope.form_model.message
+		);
+	}else{
+		delete $scope.form_model.columns['idVehicleType'];
+	}
+	
+	$scope.saveFormSubmit= function(){
+		$formUtils.save(
+			$scope.form_model
+			,"/vehicle/type/save"
+			,"/vehicle/type"
+		);
+	};
+
+	
+	$scope.vm=
+		{dtOptions:{
+    		'serverSide': true,
+    		"processing": true,
+    		'ajax':{
+    			'contentType': 'application/json',
+    			'url':'vehicle/type/list',
+    			'dataSrc':"data"
+    		}
+    	}
+    	,dtColumns:[
+    		{'data':'idVehicleType','title':'ID',
+    			render: function ( data, type, row ) {return '<a href="#!/vehicle/type/'+data+'/update">'+data+"</a>"}
+    		}
+    		,{'data':'descr','title':'Descr'}
+	        ]
+		};
+	
+}])
 .controller('UtilCtrl',['$scope','$location','$window','$timeout','$formUtils',function($scope,$location,$window,$timeout,$formUtils){
 
 	$scope.$location = $location;
@@ -133,5 +190,63 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
       return $formUtils.getMessages();
     }
 
+}])
+.controller('vehicle',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
+	
+	$scope.title="Vehicle";
+	
+	$scope.form_model = {
+		columns:{
+			'idVehicle':{'title':'ID','value':null}
+			,'regNum':{'title':'Reg num','value':null}
+			,'lastRental':{'title':'Last rental','value':null}			
+			,'':{'title':'Vehicle type','value':null}	
+			,'descr':{'title':'Full name','value':null}
+		}
+		,form_action_url:'/vehicle/save'
+		,message:""	
+	};
+	
+	
+	
+	if($routeParams.id){
+		$formUtils.loadModel(
+			$scope.form_model
+			,"/vehicle/"+$routeParams.id
+			,$scope.form_model.message
+		);
+	}else{
+		delete $scope.form_model.columns['idVehicle'];
+	}
+	
+	$scope.saveFormSubmit= function(){
+		$formUtils.save(
+			$scope.form_model
+			,"/vehicle/save"
+			,"/vehicle"
+		);
+	};
+
+	
+	$scope.vm=
+		{dtOptions:{
+    		'serverSide': true,
+    		"processing": true,
+    		'ajax':{
+    			'contentType': 'application/json',
+    			'url':'vehicle/list',
+    			'dataSrc':"data"
+    		}
+    	}
+    	,dtColumns:[
+    		{'data':'idVehicle','title':'ID',
+    			render: function ( data, type, row ) {return '<a href="#!/vehicle/'+data+'/update">'+data+"</a>"}
+    		}
+    		,{'data':'regNum','title':'Reg num'}
+    		,{'data':'vehicleType.descr','title':'Vehicle type'}
+    		,{'data':'vehicleModel.descr','title':'Model'}
+	        ]
+		};
+	
 }])
 .controller('index',['$scope',function($scope){}]);

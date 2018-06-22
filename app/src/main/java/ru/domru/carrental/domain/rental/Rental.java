@@ -23,8 +23,6 @@ public class Rental implements Serializable {
     @Id
     @Column(name = "ID_RENTAL", nullable = false)
     private int idRental;
-    @Column(name = "ID_VEHICLE", nullable = false)
-    private String idVehicle;
     private String notes;
     @Column(name = "RENTAL_END")
     private String rentalEnd;
@@ -32,7 +30,7 @@ public class Rental implements Serializable {
     private Timestamp rentalStart;
     
     @ManyToOne
-    @JoinColumn(name="ID_VEHILE")
+    @JoinColumn(name="ID_VEHICLE")
     private Vehicle vehicle;
     @ManyToOne
     @JoinColumn(name = "ID_CUSTOMER")
@@ -41,11 +39,11 @@ public class Rental implements Serializable {
     public Rental() {
     }
 
-    public Rental(Customer customer, int idRental, String idVehicle, String notes, String rentalEnd,
+    public Rental(Customer customer, int idRental, Vehicle vehicle, String notes, String rentalEnd,
                   Timestamp rentalStart) {
         this.customer = customer;
         this.idRental = idRental;
-        this.idVehicle = idVehicle;
+        this.vehicle = vehicle;
         this.notes = notes;
         this.rentalEnd = rentalEnd;
         this.rentalStart = rentalStart;
@@ -58,14 +56,6 @@ public class Rental implements Serializable {
 
     public void setIdRental(int idRental) {
         this.idRental = idRental;
-    }
-
-    public String getIdVehicle() {
-        return idVehicle;
-    }
-
-    public void setIdVehicle(String idVehicle) {
-        this.idVehicle = idVehicle;
     }
 
     public String getNotes() {

@@ -29,7 +29,34 @@ window.routes =
         '/vehicle/model/create': {
         	templateUrl: 'partials/crud/save.html',
         	controller:	'model',
+        },
+        
+        '/vehicle/type': {
+        	templateUrl: 'partials/crud/list.html',
+        	controller:	'type',
+        },
+        '/vehicle/type/:id/update': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'type',
+        },
+        '/vehicle/type/create': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'type',
+        },
+
+        '/vehicle': {
+        	templateUrl: 'partials/crud/list.html',
+        	controller:	'vehicle',
+        },
+        '/vehicle/:id/update': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'vehicle',
+        },
+        '/vehicle/create': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'vehicle',
         }
+
 };
 
 var CarRental = angular.module('CarRental', [

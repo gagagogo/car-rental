@@ -49,7 +49,7 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor'])
 		    			for(column in formModel.columns){
 		    				formModel.columns[column].value = response.data[column];
 		    			}
-		    			formUtils.addMessage("User successfuly saved");
+		    			formUtils.addMessage("Record successfuly saved");
 		    			$location.path(successUrl);
 		    		}
 		    		else{

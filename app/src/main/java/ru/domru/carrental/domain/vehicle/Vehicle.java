@@ -12,27 +12,43 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 import ru.domru.carrental.domain.rental.Rental;
 import ru.domru.carrental.domain.rental.RentalPoint;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Vehicle.findAll", query = "select o from Vehicle o") })
-@Table(name="`VIHICLE`")
+@Table(name="`VEHICLE`")
 public class Vehicle implements Serializable {
-    @Id
+
+	@JsonView(DataTablesOutput.View.class)
+	@Id
     @Column(name = "ID_VEHICLE", nullable = false)
     private int idVehicle;
-    @Column(name = "REG_NUM", nullable = false)
+    
+	@JsonView(DataTablesOutput.View.class)
+ 	@Column(name = "REG_NUM", nullable = false)
     private String regNum;
+    
+    @JsonView(DataTablesOutput.View.class)
     @OneToOne(optional=true)
     @JoinColumn(name = "LAST_RENTAL")
     private Rental lastRental;
+    
+    @JsonView(DataTablesOutput.View.class)    
     @ManyToOne
     @JoinColumn(name = "ID_VEHICLE_TYPE")
     private VehicleType vehicleType;
+    
+    @JsonView(DataTablesOutput.View.class)
     @ManyToOne
     @JoinColumn(name = "ID_VEHICLE_MODEL")
     private VehicleModel vehicleModel;
+    
+    @JsonView(DataTablesOutput.View.class)
     @ManyToOne
     @JoinColumn(name="RENTAL_POINT")
     private RentalPoint rentalPoint;

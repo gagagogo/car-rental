@@ -18,6 +18,10 @@ public class VehicleService {
 	@Autowired
 	VehicleTypeRepository vehicleTypeRepository;
 
+	@Autowired
+	VehicleRepository vehicleRepository;
+
+	
 	public DataTablesOutput<VehicleModel> getVehicleModelList(DataTablesInput input) {
 		return vehicleModelRepository.findAll(input);
 	}
@@ -34,12 +38,24 @@ public class VehicleService {
 		return vehicleTypeRepository.findAll(input);
 	}
 
-	public VehicleType saveVehicleModel(@Valid VehicleType vehicleType) {
+	public VehicleType saveVehicleType(@Valid VehicleType vehicleType) {
 		return vehicleTypeRepository.save(vehicleType);
 	}
 
 	public Optional<VehicleType> getVehicleType(int idVehicleType) {
 		return vehicleTypeRepository.findById(idVehicleType);
+	}
+
+	public DataTablesOutput<Vehicle> getVehicleList(@Valid DataTablesInput input) {
+		return vehicleRepository.findAll(input);
+	}
+
+	public Vehicle saveVehicle(@Valid Vehicle vehicle) {
+		return vehicleRepository.save(vehicle);
+	}
+
+	public Optional<Vehicle> getVehicle(int idVehicle) {
+		return vehicleRepository.findById(idVehicle);
 	}
 	
 }
