@@ -60,18 +60,19 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor','
 		    		  this.addMessage("Some thing wrong with request");
 		    	  });				
 			}
-			,selectFormOpen:function(ctrl){
-			    $uibModal.open({
+			,selectFormOpen:function(ctrl,elementCaller,loadTo){
+				var callerScope = elementCaller.scope();
+				
+			    var win = $uibModal.open({
 			        template: '<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="row-border hover"></table>',
 			        controller: ctrl,
-			        resolve:function(){
-			        	vm:{
-			        		dtColumns:[
-			        			{'render':function ( data, type, row ) {return data;}}
-			        			]
-			        		}
-			        }
+			        animation:false,
+			        scope:callerScope
 			      });
+			    
+			    callerScope.on('eventModelSelected',function(event, data){
+			    	$window.alert(data);
+			    });
 			}
 			
 	};

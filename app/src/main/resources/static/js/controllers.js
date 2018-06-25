@@ -71,7 +71,7 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     }
 
 }])
-.controller('model',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
+.controller('model',['$scope','$routeParams','$route','$http','$formUtils','$compile',function($scope,$routeParams,$route,$http,$formUtils,$compile){
 	
 	$scope.title="Vehicle model";
 	
@@ -113,15 +113,29 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     			'contentType': 'application/json',
     			'url':'vehicle/model/list',
     			'dataSrc':"data"
-    		}
+    		},
+			'createdRow':function(row){
+		        $compile(angular.element(row).contents())($scope);
+			}
+
     	}
     	,dtColumns:[
     		{'data':'idVehicleModel','title':'ID',
-    			render: function ( data, type, row ) {return '<a href="#!/vehicle/model/'+data+'/update">'+data+"</a>"}
+    			render: function ( data, type, row ) {return '<a ng-click="onRowClick('+data+')">'+data+"</a>"}
     		}
     		,{'data':'descr','title':'Descr'}
 	        ]
 		};
+	
+	$scope.onRowClick = function(data){
+		//href="#!/vehicle/model/'+data+'/update"
+		var data = {
+			entity_id:data,
+			heddeled:false
+		};
+		
+		$scope.$emit('eventModelSelected', data); // идем наверх!
+	};
 	
 }])
 .controller('type',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
@@ -248,8 +262,9 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 	        ]
 		};
 	
-	$scope.selectEntity=function(){
-		$formUtils.selectFormOpen('model');
+	$scope.selectEntity=function(ctrl,$event,loadTo){
+		var element = angular.element($event.currentTarget);
+		$formUtils.selectFormOpen(ctrl,element,loadTo);
 	};
 	
 }])
