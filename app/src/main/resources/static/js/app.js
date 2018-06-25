@@ -63,7 +63,8 @@ var CarRental = angular.module('CarRental', [
 	  'ngRoute',
 	  'datatables',
 	  'CarRental.controllers',
-	  'CarRental.services'
+	  'CarRental.services',
+	  'ui.bootstrap'
 	])
   .config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {

@@ -200,8 +200,8 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 			'idVehicle':{'title':'ID','value':null}
 			,'regNum':{'title':'Reg num','value':null}
 			,'lastRental':{'title':'Last rental','value':null}			
-			,'':{'title':'Vehicle type','value':null}	
-			,'descr':{'title':'Full name','value':null}
+			,'rentalPoint':{'title':'rentalPoint','value':null}	
+			,'vehicleModel':{'title':'Vehicle model','value':null,'modelUrl':"vehicle/model/",'listUrl':"vehicle/model/list"}
 		}
 		,form_action_url:'/vehicle/save'
 		,message:""	
@@ -247,6 +247,10 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     		,{'data':'vehicleModel.descr','title':'Model'}
 	        ]
 		};
+	
+	$scope.selectEntity=function(){
+		$formUtils.selectFormOpen('model');
+	};
 	
 }])
 .controller('index',['$scope',function($scope){}]);

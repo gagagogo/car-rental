@@ -4,7 +4,10 @@
 		</div>
 		<form ng-submit="saveFormSubmit()">
 		<div class="form-group" ng-repeat="(key,element) in form_model.columns">
-		    <input type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value">
+		    <input ng-if="!element.modelUrl" type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value">
+			<div ng-if="element.modelUrl" class="card">
+				<button ng-click="selectEntity()" ng-if="!element.value" type="button" class="btn btn-secondary">{{element.title}} (Select)</button>
+			</div>
   		</div>
   		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
