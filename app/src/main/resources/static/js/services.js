@@ -70,8 +70,10 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor','
 			        scope:callerScope
 			      });
 			    
-			    callerScope.on('eventModelSelected',function(event, data){
-			    	$window.alert(data);
+			    callerScope.$on('eventModelSelected',function(event, data){
+			    	loadTo.value = data;
+			    	win.close(data);
+			    	data.handeled = true;
 			    });
 			}
 			

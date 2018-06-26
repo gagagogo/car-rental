@@ -71,7 +71,7 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     }
 
 }])
-.controller('model',['$scope','$routeParams','$route','$http','$formUtils','$compile',function($scope,$routeParams,$route,$http,$formUtils,$compile){
+.controller('model',['$scope','$routeParams','$location','$http','$formUtils','$compile',function($scope,$routeParams,$location,$http,$formUtils,$compile){
 	
 	$scope.title="Vehicle model";
 	
@@ -128,13 +128,14 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 		};
 	
 	$scope.onRowClick = function(data){
-		//href="#!/vehicle/model/'+data+'/update"
-		var data = {
+		var edata = {
 			entity_id:data,
-			heddeled:false
+			handeled:false
 		};
 		
-		$scope.$emit('eventModelSelected', data); // идем наверх!
+		$scope.$emit('eventModelSelected', edata); // идем наверх!
+		
+		if(!edata.handeled) $location.path('/vehicle/model/'+data+'/update')
 	};
 	
 }])
