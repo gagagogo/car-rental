@@ -26,18 +26,15 @@ public class VehicleController {
 
 
 	// MODELS
-    @JsonView(DataTablesOutput.View.class)	
 	@RequestMapping(value="/model/list")	
 	public DataTablesOutput<VehicleModel> getVehicleModelList(@Valid DataTablesInput input) {
 		return vehicleService.getVehicleModelList(input);
 	}
-    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/model/save")
 	public VehicleModel vehicleModelSave(@RequestBody @Valid VehicleModel vehicleModel) {
 		return vehicleService.saveVehicleModel(vehicleModel);
 	}
 	
-    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/model/{idVehicleModel}", method=RequestMethod.GET)
 	public VehicleModel getVehicleModel(@PathVariable int idVehicleModel) {
 		Optional<VehicleModel> model = vehicleService.getVehicleModel(idVehicleModel);

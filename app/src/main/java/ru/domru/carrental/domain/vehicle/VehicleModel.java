@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
@@ -24,17 +25,17 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Table(name = "`VEHICLE_MODEL`")
 public class VehicleModel implements Serializable {
     
-	@JsonView(DataTablesOutput.View.class)
-	private String descr;
 
-    @JsonView(DataTablesOutput.View.class)    
     @Id
     @Column(name = "ID_VEHICLE_MODEL", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int idVehicleModel;
-    
+
+	private String descr;
+
 
     @OneToMany(mappedBy = "vehicleModel", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JsonIgnore
     private List<Vehicle> vehicleList;
 
     public VehicleModel() {

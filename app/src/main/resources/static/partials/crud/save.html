@@ -7,9 +7,10 @@
 		    <input ng-if="!element.modelUrl" type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value">
 			<div ng-if="element.modelUrl" class="card">
 				<button ng-click="selectEntity('model',$event,form_model.columns[key])" ng-if="!element.value" type="button" class="btn btn-secondary">{{element.title}} (Select)</button>
-				<ul class="list-group list-group-flush" ng-if="element.value" ng-repeat="(propKey,propVal) in element.value">
-					<li class="list-group-item">{{propKey}}:{{propVal}}</li>
-				</ul>
+				<div ng-if="element.value">
+					<h4><span class="badge badge-secondary" ng-repeat="(propKey,propVal) in element.value"> {{propVal}}</span></h4>
+					<h4><span class="badge badge-secondary" ng-click="element.value=null"> X </span></h4>
+				</div>
 			</div>
   		</div>
   		<button type="submit" class="btn btn-primary">Submit</button>

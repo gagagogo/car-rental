@@ -115,31 +115,28 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     			'dataSrc':"data"
     		},
 			'createdRow':function(row){
-		        $compile(angular.element(row).contents())($scope);
+		        $compile(angular.element(row).attr('ng-click','onRowClick($event)'))($scope);
 			}
 
     	}
     	,dtColumns:[
-    		{'data':'idVehicleModel','title':'ID',
-    			render: function ( data, type, row ) {
-    				return '<a ng-click="onRowClick($event)">'+data+"</a>";	
-    				}
-    		}
+    		{'data':'idVehicleModel','title':'ID'}
     		,{'data':'descr','title':'Descr'}
 	        ]
     	,dtInstance:{}
 		};
 	
-	$scope.onRowClick = function(data){
-		var row = angular.element(data.currentTarget).closest("tr");
-		var edata = {
-			entity_id:data,
+	$scope.onRowClick = function(event){
+		var row = angular.element(event.currentTarget);
+		
+		var data = {
+			entity:$scope.vm.dtInstance.DataTable.row(row).data(),
 			handeled:false
 		};
 		
-		$scope.$emit('eventModelSelected', edata); // идем наверх!
+		$scope.$emit('eventModelSelected', data); // идем наверх!
 		
-		if(!edata.handeled) $location.path('/vehicle/model/'+data+'/update')
+		if(!data.handeled) $location.path('/vehicle/model/'+data.entity.idVehicleModel+'/update')
 	};
 	
 }])

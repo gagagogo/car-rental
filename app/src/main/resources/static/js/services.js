@@ -64,14 +64,14 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor','
 				var callerScope = elementCaller.scope();
 				
 			    var win = $uibModal.open({
-			        template: '<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="row-border hover"></table>',
+			        template: '<table datatable="" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" dt-instance="vm.dtInstance" class="row-border hover"></table>',
 			        controller: ctrl,
 			        animation:false,
 			        scope:callerScope
 			      });
 			    
 			    callerScope.$on('eventModelSelected',function(event, data){
-			    	loadTo.value = data;
+			    	loadTo.value = data.entity;
 			    	win.close(data);
 			    	data.handeled = true;
 			    });
