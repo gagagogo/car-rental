@@ -121,13 +121,17 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     	}
     	,dtColumns:[
     		{'data':'idVehicleModel','title':'ID',
-    			render: function ( data, type, row ) {return '<a ng-click="onRowClick('+data+')">'+data+"</a>"}
+    			render: function ( data, type, row ) {
+    				return '<a ng-click="onRowClick($event)">'+data+"</a>";	
+    				}
     		}
     		,{'data':'descr','title':'Descr'}
 	        ]
+    	,dtInstance:{}
 		};
 	
 	$scope.onRowClick = function(data){
+		var row = angular.element(data.currentTarget).closest("tr");
 		var edata = {
 			entity_id:data,
 			handeled:false
