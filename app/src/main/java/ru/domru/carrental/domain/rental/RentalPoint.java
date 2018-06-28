@@ -13,16 +13,23 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ru.domru.carrental.domain.vehicle.Vehicle;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "RentalPoint.findAll", query = "select o from RentalPoint o") })
 @Table(name = "`RENTAL_POINT`")
 public class RentalPoint implements Serializable {
-    private String address;
+    
     @Id
     @Column(name = "ID_RENTAL_POINT", nullable = false)
     private int idRentalPoint;
+    
+    @Column(name = "ADDRESS", nullable = false)
+    private String address;
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "rentalPoint", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Vehicle> vehicleList;
 

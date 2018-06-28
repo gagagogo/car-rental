@@ -12,6 +12,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ru.domru.carrental.domain.rental.Rental;
 
@@ -19,10 +22,16 @@ import ru.domru.carrental.domain.rental.Rental;
 @NamedQueries({ @NamedQuery(name = "Customer.findAll", query = "select o from Customer o") })
 @Table(name="`CUSTOMER`")
 public class Customer implements Serializable {
-    private String descr;
+    
     @Id
     @Column(name = "ID_CUSTOMER", nullable = false)
     private int idCustomer;
+    
+    @Column(nullable=false)
+    @NotNull
+    private String descr;
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "customer", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Rental> rentalList;
 

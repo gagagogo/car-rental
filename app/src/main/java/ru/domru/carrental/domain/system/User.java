@@ -22,6 +22,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 
@@ -31,31 +32,31 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class User implements Serializable {
     private static final long serialVersionUID = 63592899178651170L;
     
-    @JsonView(DataTablesOutput.View.class)
     @Id
     @Column(name = "ID_USER", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int idUser;
     
-    @JsonView(DataTablesOutput.View.class)
     @Column(name = "DESCR", nullable = false)
     @NotNull
     private String descr;
 
-    
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<History> historyList;
     
-    @JsonView(DataTablesOutput.View.class)
     @Column(name = "NAME", nullable = false)
     @NotNull
     @Size(min=2, max=32)
     private String name;
 
+    @JsonIgnore
     @Column(name = "PASS", nullable = false)
     @NotNull
     private String password;
 
+    @JsonIgnore
     @ManyToMany(cascade= {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "USER_ROLE", 
     	joinColumns = @JoinColumn(name = "ID_USER"), 

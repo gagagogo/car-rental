@@ -24,31 +24,29 @@ import ru.domru.carrental.domain.rental.RentalPoint;
 @Table(name="`VEHICLE`")
 public class Vehicle implements Serializable {
 
-	@JsonView(DataTablesOutput.View.class)
 	@Id
     @Column(name = "ID_VEHICLE", nullable = false)
     private int idVehicle;
     
-	@JsonView(DataTablesOutput.View.class)
+
  	@Column(name = "REG_NUM", nullable = false)
     private String regNum;
     
-    @JsonView(DataTablesOutput.View.class)
     @OneToOne(optional=true)
     @JoinColumn(name = "LAST_RENTAL")
     private Rental lastRental;
     
-    @JsonView(DataTablesOutput.View.class)    
+    
     @ManyToOne
     @JoinColumn(name = "ID_VEHICLE_TYPE")
     private VehicleType vehicleType;
     
-    @JsonView(DataTablesOutput.View.class)
+
     @ManyToOne
     @JoinColumn(name = "ID_VEHICLE_MODEL")
     private VehicleModel vehicleModel;
     
-    @JsonView(DataTablesOutput.View.class)
+
     @ManyToOne
     @JoinColumn(name="RENTAL_POINT")
     private RentalPoint rentalPoint;
@@ -103,8 +101,12 @@ public class Vehicle implements Serializable {
     public void setRentalPoint(RentalPoint rentalPoint) {
         this.rentalPoint = rentalPoint;
     }
+    
+    public RentalPoint getRentalPoint() {
+		return rentalPoint;
+	}
 
-    public VehicleModel getVehicleModel() {
+	public VehicleModel getVehicleModel() {
         return vehicleModel;
     }
 

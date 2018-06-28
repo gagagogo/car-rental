@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor'])
-.controller('user',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
+.controller('user',['$scope','$routeParams','$route','$http','$formUtils','$compile','$location',function($scope,$routeParams,$route,$http,$formUtils,$compile,$location){
 	
 	$scope.title="User";
 	
@@ -46,15 +46,31 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     			'url':'system/user/list',
     			'dataSrc':"data"
     		}
+			,'createdRow':function(row){
+		        $compile(angular.element(row).attr('ng-click','onRowClick($event)'))($scope);
+			}
     	}
+    	,dtInstance:{}
     	,dtColumns:[
-    		{'data':'idUser','title':'ID',
-    			render: function ( data, type, row ) {return '<a href="#!/user/'+data+'/update">'+data+"</a>"}
-    		}
+    		{'data':'idUser','title':'ID'}
     		,{'data':'name','title':'Login'}
     		,{'data':'descr','title':'Descr'}
 	        ]
 		};
+	
+	
+	$scope.onRowClick = function(event){
+		var row = angular.element(event.currentTarget);
+		
+		var data = {
+			entity:$scope.vm.dtInstance.DataTable.row(row).data(),
+			handeled:false
+		};
+		
+		$scope.$emit('eventSelectedUser', data); // идем наверх!
+		
+		if(!data.handeled) $location.path('/user/'+data.entity.idUser+'/update');
+	};
 	
     $scope.logout=function () {
         $http({
@@ -134,13 +150,13 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 			handeled:false
 		};
 		
-		$scope.$emit('eventModelSelected', data); // идем наверх!
+		$scope.$emit('eventSelectedModel', data); // идем наверх!
 		
-		if(!data.handeled) $location.path('/vehicle/model/'+data.entity.idVehicleModel+'/update')
+		if(!data.handeled) $location.path('/vehicle/model/'+data.entity.idVehicleModel+'/update');
 	};
 	
 }])
-.controller('type',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
+.controller('type',['$scope','$routeParams','$location','$http','$formUtils','$compile',function($scope,$routeParams,$location,$http,$formUtils,$compile){
 	
 	$scope.title="Vehicle type";
 	
@@ -183,14 +199,165 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     			'url':'vehicle/type/list',
     			'dataSrc':"data"
     		}
+			,'createdRow':function(row){
+		        $compile(angular.element(row).attr('ng-click','onRowClick($event)'))($scope);
+			}
     	}
+		,dtInstance:{}
     	,dtColumns:[
-    		{'data':'idVehicleType','title':'ID',
-    			render: function ( data, type, row ) {return '<a href="#!/vehicle/type/'+data+'/update">'+data+"</a>"}
-    		}
+    		{'data':'idVehicleType','title':'ID'}
     		,{'data':'descr','title':'Descr'}
 	        ]
 		};
+	
+	$scope.onRowClick = function(event){
+		var row = angular.element(event.currentTarget);
+		
+		var data = {
+			entity:$scope.vm.dtInstance.DataTable.row(row).data(),
+			handeled:false
+		};
+		
+		$scope.$emit('eventSelectedType', data); // идем наверх!
+		
+		if(!data.handeled) $location.path('/vehicle/type/'+data.entity.idVehicleType+'/update');
+	};
+	
+}])
+.controller('rentalPoint',['$scope','$routeParams','$location','$http','$formUtils','$compile',function($scope,$routeParams,$location,$http,$formUtils,$compile){
+	
+	$scope.title="Rental point";
+	
+	$scope.form_model = {
+		columns:{
+			'idRentalPoint':{'title':'ID','value':null}
+			,'address':{'title':'Address','value':null}
+		}
+		,form_action_url:'/rental/point/save'
+		,message:""	
+	};
+	
+	
+	
+	if($routeParams.id){
+		$formUtils.loadModel(
+			$scope.form_model
+			,"/rental/point/"+$routeParams.id
+			,$scope.form_model.message
+		);
+	}else{
+		delete $scope.form_model.columns['idRentalPoint'];
+	}
+	
+	$scope.saveFormSubmit= function(){
+		$formUtils.save(
+			$scope.form_model
+			,"/rental/point/save"
+			,"/rental/point"
+		);
+	};
+
+	
+	$scope.vm=
+		{dtOptions:{
+    		'serverSide': true,
+    		"processing": true,
+    		'ajax':{
+    			'contentType': 'application/json',
+    			'url':'rental/point/list',
+    			'dataSrc':"data"
+    		}
+			,'createdRow':function(row){
+		        $compile(angular.element(row).attr('ng-click','onRowClick($event)'))($scope);
+			}
+    	}
+		,dtInstance:{}
+    	,dtColumns:[
+    		{'data':'idRentalPoint','title':'ID'}
+    		,{'data':'address','title':'Address'}
+	        ]
+		};
+	
+	$scope.onRowClick = function(event){
+		var row = angular.element(event.currentTarget);
+		
+		var data = {
+			entity:$scope.vm.dtInstance.DataTable.row(row).data(),
+			handeled:false
+		};
+		
+		$scope.$emit('eventSelectedRentalPoint', data); // идем наверх!
+		
+		if(!data.handeled) $location.path('/rental/point/'+data.entity.idRentalPoint+'/update');
+	};
+	
+}])
+.controller('customer',['$scope','$routeParams','$location','$http','$formUtils','$compile',function($scope,$routeParams,$location,$http,$formUtils,$compile){
+	
+	$scope.title="Customer";
+	
+	$scope.form_model = {
+		columns:{
+			'idCustomer':{'title':'ID','value':null}
+			,'descr':{'title':'Customer full name','value':null}
+		}
+		,form_action_url:'/customer/save'
+		,message:""	
+	};
+	
+	
+	
+	if($routeParams.id){
+		$formUtils.loadModel(
+			$scope.form_model
+			,"/customer/"+$routeParams.id
+			,$scope.form_model.message
+		);
+	}else{
+		delete $scope.form_model.columns['idCustomer'];
+	}
+	
+	$scope.saveFormSubmit= function(){
+		$formUtils.save(
+			$scope.form_model
+			,"/customer/save"
+			,"/customer"
+		);
+	};
+
+	
+	$scope.vm=
+		{dtOptions:{
+    		'serverSide': true,
+    		"processing": true,
+    		'ajax':{
+    			'contentType': 'application/json',
+    			'url':'customer/list',
+    			'dataSrc':"data"
+    		}
+			,'createdRow':function(row){
+		        $compile(angular.element(row).attr('ng-click','onRowClick($event)'))($scope);
+			}
+    	}
+		,dtInstance:{}
+    	,dtColumns:[
+    		{'data':'idCustomer','title':'ID'}
+    		,{'data':'descr','title':'Full name'}
+	        ]
+		};
+	
+	$scope.onRowClick = function(event){
+		var row = angular.element(event.currentTarget);
+		
+		var data = {
+			entity:$scope.vm.dtInstance.DataTable.row(row).data(),
+			handeled:false
+		};
+		
+		$scope.$emit('eventSelectedCustomer', data); // идем наверх!
+		
+		if(!data.handeled) $location.path('/customer/'+data.entity.idCustomer+'/update');
+	};
 	
 }])
 .controller('UtilCtrl',['$scope','$location','$window','$timeout','$formUtils',function($scope,$location,$window,$timeout,$formUtils){
@@ -207,7 +374,7 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     }
 
 }])
-.controller('vehicle',['$scope','$routeParams','$route','$http','$formUtils',function($scope,$routeParams,$route,$http,$formUtils){
+.controller('vehicle',['$scope','$routeParams','$location','$http','$formUtils','$compile',function($scope,$routeParams,$location,$http,$formUtils,$compile){
 	
 	$scope.title="Vehicle";
 	
@@ -217,7 +384,9 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 			,'regNum':{'title':'Reg num','value':null}
 			,'lastRental':{'title':'Last rental','value':null}			
 			,'rentalPoint':{'title':'rentalPoint','value':null}	
-			,'vehicleModel':{'title':'Vehicle model','value':null,'modelUrl':"vehicle/model/",'listUrl':"vehicle/model/list"}
+			,'vehicleModel':{'title':'Vehicle model','value':null,'controller':'model'}
+			,'vehicleType':{'title':'Vehicle type','value':null,'controller':'type'}
+			,'rentalPoint':{'title':'RentalPoint','value':null,'controller':'rentalPoint'}
 		}
 		,form_action_url:'/vehicle/save'
 		,message:""	
@@ -252,17 +421,31 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     			'contentType': 'application/json',
     			'url':'vehicle/list',
     			'dataSrc':"data"
-    		}
+    		}			,'createdRow':function(row){
+		        $compile(angular.element(row).attr('ng-click','onRowClick($event)'))($scope);
+			}
     	}
+		,dtInstance:{}
     	,dtColumns:[
-    		{'data':'idVehicle','title':'ID',
-    			render: function ( data, type, row ) {return '<a href="#!/vehicle/'+data+'/update">'+data+"</a>"}
-    		}
+    		{'data':'idVehicle','title':'ID'}
     		,{'data':'regNum','title':'Reg num'}
     		,{'data':'vehicleType.descr','title':'Vehicle type'}
     		,{'data':'vehicleModel.descr','title':'Model'}
 	        ]
 		};
+	
+	$scope.onRowClick = function(event){
+		var row = angular.element(event.currentTarget);
+		
+		var data = {
+			entity:$scope.vm.dtInstance.DataTable.row(row).data(),
+			handeled:false
+		};
+		
+		$scope.$emit('eventSelectedVehicle', data); // идем наверх!
+		
+		if(!data.handeled) $location.path('/vehicle/'+data.entity.idVehicle+'/update')
+	};	
 	
 	$scope.selectEntity=function(ctrl,$event,loadTo){
 		var element = angular.element($event.currentTarget);

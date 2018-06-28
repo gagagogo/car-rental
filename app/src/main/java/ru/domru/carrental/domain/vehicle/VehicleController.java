@@ -45,19 +45,19 @@ public class VehicleController {
 
 	
 	//TYPES
-    @JsonView(DataTablesOutput.View.class)
+
 	@RequestMapping(value="/type/list")	
 	public DataTablesOutput<VehicleType> getVehicleTypeList(@Valid DataTablesInput input) {
 		return vehicleService.getVehicleTypeList(input);
 	}
 	
-    @JsonView(DataTablesOutput.View.class)
+
 	@RequestMapping(value="/type/save")
 	public VehicleType vehicleTypeSave(@RequestBody @Valid VehicleType vehicleType) {
 		return vehicleService.saveVehicleType(vehicleType);
 	}
 	
-    @JsonView(DataTablesOutput.View.class)
+
 	@RequestMapping(value="/type/{idVehicleType}", method=RequestMethod.GET)
 	public VehicleType getVehicleType(@PathVariable int idVehicleType) {
 		Optional<VehicleType> type = vehicleService.getVehicleType(idVehicleType);
@@ -67,19 +67,16 @@ public class VehicleController {
 	
 	
 	//VEHICLE
-    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/list")	
 	public DataTablesOutput<Vehicle> getVehicleList(@Valid DataTablesInput input) {
 		return vehicleService.getVehicleList(input);
 	}
 	
-    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/save")
 	public Vehicle vehicleSave(@RequestBody @Valid Vehicle vehicle) {
 		return vehicleService.saveVehicle(vehicle);
 	}
 	
-    @JsonView(DataTablesOutput.View.class)
 	@RequestMapping(value="/{idVehicle}", method=RequestMethod.GET)
 	public Vehicle getVehicle(@PathVariable int idVehicle) {
 		Optional<Vehicle> vehicle = vehicleService.getVehicle(idVehicle);

@@ -15,22 +15,21 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "VehicleType.findAll", query = "select o from VehicleType o") })
 @Table(name = "`VEHICLE_TYPE`")
 public class VehicleType implements Serializable {
-    
-	@JsonView(DataTablesOutput.View.class)
-	@Column(nullable = false)
-    private String descr;
-    
-	@JsonView(DataTablesOutput.View.class)    
 	@Id
     @Column(name = "ID_VEHICLE_TYPE", nullable = false)
     private int idVehicleType;
+    
+	@Column(nullable = false)
+    private String descr;
 
+	@JsonIgnore
     @OneToMany(mappedBy = "vehicleType", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Vehicle> vehicleList;
 
