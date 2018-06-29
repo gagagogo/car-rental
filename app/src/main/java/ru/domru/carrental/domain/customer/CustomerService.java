@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CustomerService {
 	
 	@Autowired
@@ -20,7 +22,7 @@ public class CustomerService {
 		return customerRepository.findAll(input);
 	}
 
-	public Customer saveCustomer(@Valid Customer customer) {
+	public Customer saveCustomer(Customer customer) {
 		return customerRepository.save(customer);
 	}
 

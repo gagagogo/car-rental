@@ -17,13 +17,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 
 @Entity
@@ -38,7 +38,7 @@ public class User implements Serializable {
     private int idUser;
     
     @Column(name = "DESCR", nullable = false)
-    @NotNull
+    @NotEmpty
     private String descr;
 
 
@@ -51,8 +51,8 @@ public class User implements Serializable {
     @Size(min=2, max=32)
     private String name;
 
-    @JsonIgnore
     @Column(name = "PASS", nullable = false)
+    @JsonProperty(access=Access.WRITE_ONLY)
     @NotNull
     private String password;
 
@@ -115,6 +115,7 @@ public class User implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 
 	public String getPassword() {
 		return password;

@@ -15,6 +15,9 @@ public class RentalService {
 	@Autowired
 	RentalPointRepository rentalPointRepository;
 
+	@Autowired
+	RentalRepository rentalRepository;
+
 	
 	public DataTablesOutput<RentalPoint> getRentalPointList(DataTablesInput input) {
 		return rentalPointRepository.findAll(input);
@@ -27,5 +30,17 @@ public class RentalService {
 	public Optional<RentalPoint> getRentalPoint(int idRentalPoint) {
 		return rentalPointRepository.findById(idRentalPoint);
 	}
-		
+
+	
+	public DataTablesOutput<Rental> getRentalList(DataTablesInput input) {
+		return rentalRepository.findAll(input);
+	}
+
+	public Rental saveRental(Rental rental) {
+		return rentalRepository.save(rental);
+	}
+
+	public Optional<Rental> getRental(int idRental) {
+		return rentalRepository.findById(idRental);
+	}
 }

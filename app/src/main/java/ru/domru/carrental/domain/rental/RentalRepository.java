@@ -1,7 +1,7 @@
 package ru.domru.carrental.domain.rental;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
 
-public interface RentalRepository extends CrudRepository<Rental, Integer> {
+public interface RentalRepository extends DataTablesRepository<Rental, Integer> {
 
 }

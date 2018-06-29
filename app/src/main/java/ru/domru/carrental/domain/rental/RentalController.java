@@ -42,4 +42,21 @@ public class RentalController {
 		return point.get();		
 	}
 
+	//RENTAL
+	@RequestMapping(value="/list")	
+	public DataTablesOutput<Rental> getRentalList(@Valid DataTablesInput input) {
+		return rentalService.getRentalList(input);
+	}
+	@RequestMapping(value="/save")
+	public Rental rentalSave(@RequestBody @Valid Rental rental) {
+		return rentalService.saveRental(rental);
+	}
+	
+	@RequestMapping(value="/{idRental}", method=RequestMethod.GET)
+	public Rental getRental(@PathVariable int idRental) {
+		Optional<Rental> rental = rentalService.getRental(idRental);
+		if(!rental.isPresent()) throw new EntityNotFoundException("Ivalid id");
+		return rental.get();		
+	}	
+	
 }

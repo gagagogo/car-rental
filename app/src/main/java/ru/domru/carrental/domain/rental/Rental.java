@@ -23,9 +23,12 @@ public class Rental implements Serializable {
     @Id
     @Column(name = "ID_RENTAL", nullable = false)
     private int idRental;
+    
     private String notes;
     @Column(name = "RENTAL_END")
+    
     private String rentalEnd;
+    
     @Column(name = "RENTAL_START")
     private Timestamp rentalStart;
     

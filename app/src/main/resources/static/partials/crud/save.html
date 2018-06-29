@@ -1,15 +1,20 @@
 <div class="jumbotron">
 		<div ng-controller="UtilCtrl">
-			<div class="alert alert-primary" role="alert"  ng-repeat="message in messages">{{message}}</div>  		
+			<div class="alert alert-primary" role="alert"  ng-repeat="message in messages track by $index">{{message}}</div>
 		</div>
 		<form ng-submit="saveFormSubmit()">
 		<div class="form-group" ng-repeat="(key,element) in form_model.columns">
 		    <input ng-if="!element.controller" type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value">
 			<div ng-if="element.controller" class="card">
-				<button ng-click="selectEntity(element.controller,$event,form_model.columns[key])" ng-if="!element.value" type="button" class="btn btn-secondary">{{element.title}} (Select)</button>
-				<div ng-if="element.value">
-					<h4><span class="badge badge-secondary" ng-repeat="(propKey,propVal) in element.value"> {{propVal}}</span></h4>
-					<h4><span class="badge badge-secondary" ng-click="element.value=null"> X </span></h4>
+				<button ng-click="selectEntity(element.controller,$event,form_model.columns[key])" ng-if="!element.value" type="button" class="btn btn-light">{{element.title}} (Select)</button>
+				<div ng-if="element.value" class="card" >
+					  <div class="card-body">
+					    <h5 class="card-title text-capitalize">{{element.controller}}</h5>
+					    <h6 class="card-subtitle mb-2 text-muted">Details:</h6>
+					    <p class="card-text" ng-repeat="(propKey,propVal) in element.value">{{propVal}}</p>
+					    <button type="button" class="btn btn-link card-link" ng-click="element.value=null">Remove</button>
+					    <button type="button" class="btn btn-link card-link" ng-click="selectEntity(element.controller,$event,form_model.columns[key])">Change</button>
+					  </div>
 				</div>
 			</div>
   		</div>

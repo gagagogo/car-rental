@@ -9,7 +9,7 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor','
 				this.getMessages().push(msg);
 			}
 			,cleanMessages(){
-				this.messages = [];
+				this.messages.length = 0;
 			}
 			,loadModel:function(formModel,url){
 				$http({
@@ -53,11 +53,13 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor','
 		    			$location.path(successUrl);
 		    		}
 		    		else{
-		    			formUtils.addMessage(response.data.message);
+		    			var errors = response.data.errors
+		    			for(i=0;i<errors.length;i++)
+		    				formUtils.addMessage(errors[i].field+" "+errors[i].defaultMessage);
 		    		} 
 		    		
 		    	  }, function errorCallback(response) {
-		    		  this.addMessage("Some thing wrong with request");
+		    		  formUtils.addMessage("Some thing wrong with request");
 		    	  });				
 			}
 			,selectFormOpen:function(ctrl,elementCaller,loadTo){

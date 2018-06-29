@@ -85,7 +85,20 @@ window.routes =
         '/customer/create': {
         	templateUrl: 'partials/crud/save.html',
         	controller:	'customer',
-        }        
+        },
+
+        '/rental': {
+        	templateUrl: 'partials/crud/list.html',
+        	controller:	'rental',
+        },        
+        '/rental/:id/update': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'rental',
+        },
+        '/rental/create': {
+        	templateUrl: 'partials/crud/save.html',
+        	controller:	'rental',
+        }
 };
 
 var CarRental = angular.module('CarRental', [

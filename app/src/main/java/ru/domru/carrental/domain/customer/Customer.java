@@ -12,7 +12,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,8 +27,8 @@ public class Customer implements Serializable {
     @Column(name = "ID_CUSTOMER", nullable = false)
     private int idCustomer;
     
-    @Column(nullable=false)
-    @NotNull
+    @Column(name="DESCR",nullable=false)
+    @NotEmpty
     private String descr;
     
     @JsonIgnore
