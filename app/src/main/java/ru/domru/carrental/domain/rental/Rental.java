@@ -27,7 +27,7 @@ public class Rental implements Serializable {
     private String notes;
     @Column(name = "RENTAL_END")
     
-    private String rentalEnd;
+    private Timestamp rentalEnd;
     
     @Column(name = "RENTAL_START")
     private Timestamp rentalStart;
@@ -42,7 +42,7 @@ public class Rental implements Serializable {
     public Rental() {
     }
 
-    public Rental(Customer customer, int idRental, Vehicle vehicle, String notes, String rentalEnd,
+    public Rental(Customer customer, int idRental, Vehicle vehicle, String notes, Timestamp rentalEnd,
                   Timestamp rentalStart) {
         this.customer = customer;
         this.idRental = idRental;
@@ -69,11 +69,11 @@ public class Rental implements Serializable {
         this.notes = notes;
     }
 
-    public String getRentalEnd() {
+    public Timestamp getRentalEnd() {
         return rentalEnd;
     }
 
-    public void setRentalEnd(String rentalEnd) {
+    public void setRentalEnd(Timestamp rentalEnd) {
         this.rentalEnd = rentalEnd;
     }
 

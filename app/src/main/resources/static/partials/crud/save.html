@@ -3,8 +3,9 @@
 			<div class="alert alert-primary" role="alert"  ng-repeat="message in messages track by $index">{{message}}</div>
 		</div>
 		<form ng-submit="saveFormSubmit()">
-		<div class="form-group" ng-repeat="(key,element) in form_model.columns">
-		    <input ng-if="!element.controller" type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value">
+		<div class="form-group" ng-repeat="(key,element) in form_model.columns" ng-switch="element.type">
+			<input ng-if="!element.controller" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value" ng-switch-when="date" uib-datepicker-popup="yyyy-MM-dd hh:mm" is-open="element.opened" ng-click="element.opened=!element.opened" datepicker-options="element.options">
+		    <input ng-if="!element.controller" type="text" class="form-control" id="e-{{key}}" placeholder="{{element.title}}" ng-model="form_model.columns[key].value" ng-switch-default>
 			<div ng-if="element.controller" class="card">
 				<button ng-click="selectEntity(element.controller,$event,form_model.columns[key])" ng-if="!element.value" type="button" class="btn btn-light">{{element.title}} (Select)</button>
 				<div ng-if="element.value" class="card" >

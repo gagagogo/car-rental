@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor'])
+angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor','ui.bootstrap'])
 .controller('user',['$scope','$routeParams','$route','$http','$formUtils','$compile','$location',function($scope,$routeParams,$route,$http,$formUtils,$compile,$location){
 	
 	$scope.title="User";
@@ -468,9 +468,9 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 		columns:{
 			'idRental':{'title':'ID','value':null}
 			,'customer':{'title':'Customer','value':null,'controller':'customer'}
-			,'vehicle':{'title':'Vehicle','value':null,'controller':'vehicle'}			
-			,'rentalStart':{'title':'Rental start time','value':null}	
-			,'rentalEnd':{'title':'Rental end time','value':null}
+			,'vehicle':{'title':'Vehicle','value':null,'controller':'vehicle'}
+			,'rentalStart':{'title':'Rental start time','value':null,'type':'date','opened':false,'options':{'startingDay': 1}}
+			,'rentalEnd':{'title':'Rental end time','value':null,'type':'date','opened':false,'options':{'startingDay': 1}}
 			,'notes':{'title':'Notes','value':null}
 		}
 		,form_action_url:'/rental/save'
@@ -494,7 +494,7 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 	
 	$scope.$watch('form_model.columns.vehicle.value',function(){
 		var vehicleVal = $scope.form_model.columns.vehicle.value;
-		if(vehicleVal){
+		if(vehicleVal && vehicleVal.vehicleModel){
 			$scope.form_model.columns.vehicle.value = {
 				idVehicle:vehicleVal.idVehicle,
 				regNum:vehicleVal.regNum,
@@ -505,6 +505,17 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 		}	
 	});
 	
+	$scope.$watch('form_model.columns.rentalStart.value',function(){
+		var d = $scope.form_model.columns.rentalStart.value;
+		if(d && !angular.isDate(d))
+			try{$scope.form_model.columns.rentalStart.value = new Date(d);}catch(e){}
+	});
+	$scope.$watch('form_model.columns.rentalEnd.value',function(){
+		var d = $scope.form_model.columns.rentalEnd.value;
+		if(d && !angular.isDate(d))
+			try{$scope.form_model.columns.rentalEnd.value = new Date(d);}catch(e){}
+	});
+	
 	$scope.saveFormSubmit= function(){
 		$formUtils.save(
 			$scope.form_model
@@ -513,6 +524,16 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 		);
 	};
 
+	var render =  function ( data, type, row, meta ) {
+		try{
+			var d = new Date(data);
+			var s = d.toLocaleDateString()+" "+d.toLocaleTimeString();
+			return s;
+		}catch(e){
+			alert(e);
+		}
+		return data;
+	}
 	
 	$scope.vm=
 		{dtOptions:{
@@ -532,11 +553,12 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
     		,{'data':'customer.descr','title':'Customer full name'}
     		,{'data':'vehicle.regNum','title':'Vehicle reg num'}
     		,{'data':'vehicle.vehicleModel.descr','title':'Vehicle model'}
-    		,{'data':'rentalStart','title':'Rental start time'}
-    		,{'data':'rentalEnd','title':'Rental end time'}
+    		,{'data':'rentalStart','title':'Rental start time','render':render}
+    		,{'data':'rentalEnd','title':'Rental end time','render':render}
     		,{'data':'notes','title':'Notes'}
 	        ]
 		};
+	
 	
 	$scope.onRowClick = function(event){
 		var row = angular.element(event.currentTarget);
