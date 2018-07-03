@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import ru.domru.carrental.domain.customer.Customer;
 import ru.domru.carrental.domain.vehicle.Vehicle;
@@ -25,35 +28,71 @@ public class Rental implements Serializable {
     private int idRental;
     
     private String notes;
-    @Column(name = "RENTAL_END")
+
+    @Column(name = "RENTAL_START")
+    @NotNull
+    private Timestamp rentalStart;
+
+    @ManyToOne
+    @JoinColumn(name="POINT_FROM")
+    @NotNull
+    private RentalPoint pointFrom;
+
     
+    @Column(name = "RENTAL_END")
     private Timestamp rentalEnd;
     
-    @Column(name = "RENTAL_START")
-    private Timestamp rentalStart;
-    
+    @ManyToOne
+    @JoinColumn(name="POINT_TO")
+    private RentalPoint pointTo;
+
     @ManyToOne
     @JoinColumn(name="ID_VEHICLE")
+    @NotNull
     private Vehicle vehicle;
+    
     @ManyToOne
     @JoinColumn(name = "ID_CUSTOMER")
+    @NotNull
     private Customer customer;
 
     public Rental() {
     }
 
-    public Rental(Customer customer, int idRental, Vehicle vehicle, String notes, Timestamp rentalEnd,
-                  Timestamp rentalStart) {
-        this.customer = customer;
-        this.idRental = idRental;
-        this.vehicle = vehicle;
-        this.notes = notes;
-        this.rentalEnd = rentalEnd;
-        this.rentalStart = rentalStart;
+
+    /**
+     * Insted of writing true bean validation
+     * 
+     * @return boolean Result of reception vehicle validation
+     * */
+    @AssertTrue(message="invalid rental end date or reception point")
+    private boolean isReceptionVehicleValid() {
+    	if(this.getRentalEnd()==null && this.getPointTo()==null) return true;
+    	
+    	if(this.getRentalEnd()!=null && this.getPointTo()!=null) {
+    		return this.getRentalEnd().getTime()> this.getRentalStart().getTime();
+    	}	
+    	
+    	return false;	
     }
 
 
-    public int getIdRental() {
+    public Rental(int idRental, String notes, Timestamp rentalStart, RentalPoint pointFrom, Timestamp rentalEnd,
+			RentalPoint pointTo, Vehicle vehicle, Customer customer) {
+		
+    	this.idRental = idRental;
+		this.notes = notes;
+		this.rentalStart = rentalStart;
+		this.pointFrom = pointFrom;
+		this.rentalEnd = rentalEnd;
+		this.pointTo = pointTo;
+		this.vehicle = vehicle;
+		this.customer = customer;
+	}
+
+
+
+	public int getIdRental() {
         return idRental;
     }
 
@@ -101,4 +140,22 @@ public class Rental implements Serializable {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+	public RentalPoint getPointFrom() {
+		return pointFrom;
+	}
+
+	public void setPointFrom(RentalPoint pointFrom) {
+		this.pointFrom = pointFrom;
+	}
+
+	public RentalPoint getPointTo() {
+		return pointTo;
+	}
+
+	public void setPointTo(RentalPoint pointTo) {
+		this.pointTo = pointTo;
+	}
+    
+    
 }

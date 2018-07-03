@@ -470,6 +470,8 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 			,'customer':{'title':'Customer','value':null,'controller':'customer'}
 			,'vehicle':{'title':'Vehicle','value':null,'controller':'vehicle'}
 			,'rentalStart':{'title':'Rental start time','value':null,'type':'date','opened':false,'options':{'startingDay': 1}}
+			,'pointFrom':{'title':'Point issuance','value':null,'controller':'rentalPoint'}
+			,'pointTo':{'title':'Point reception','value':null,'controller':'rentalPoint'}
 			,'rentalEnd':{'title':'Rental end time','value':null,'type':'date','opened':false,'options':{'startingDay': 1}}
 			,'notes':{'title':'Notes','value':null}
 		}
