@@ -22,6 +22,7 @@ import ru.domru.carrental.domain.vehicle.Vehicle;
 @Entity
 @NamedQueries({ @NamedQuery(name = "Rental.findAll", query = "select o from Rental o") })
 @Table(name="`RENTAL`")
+@ValidateRental
 public class Rental implements Serializable {
     @Id
     @Column(name = "ID_RENTAL", nullable = false)
@@ -58,24 +59,6 @@ public class Rental implements Serializable {
 
     public Rental() {
     }
-
-
-    /**
-     * Insted of writing true bean validation
-     * 
-     * @return boolean Result of reception vehicle validation
-     * */
-    @AssertTrue(message="invalid rental end date or reception point")
-    private boolean isReceptionVehicleValid() {
-    	if(this.getRentalEnd()==null && this.getPointTo()==null) return true;
-    	
-    	if(this.getRentalEnd()!=null && this.getPointTo()!=null) {
-    		return this.getRentalEnd().getTime()> this.getRentalStart().getTime();
-    	}	
-    	
-    	return false;	
-    }
-
 
     public Rental(int idRental, String notes, Timestamp rentalStart, RentalPoint pointFrom, Timestamp rentalEnd,
 			RentalPoint pointTo, Vehicle vehicle, Customer customer) {

@@ -55,7 +55,7 @@ angular.module('CarRental.services', ['spring-security-csrf-token-interceptor','
 		    		else{
 		    			var errors = response.data.errors
 		    			for(i=0;i<errors.length;i++)
-		    				formUtils.addMessage(errors[i].field+" "+errors[i].defaultMessage);
+		    				formUtils.addMessage((errors[i].hasOwnProperty('field')?errors[i].field+" ":"")+errors[i].defaultMessage);
 		    		} 
 		    		
 		    	  }, function errorCallback(response) {
