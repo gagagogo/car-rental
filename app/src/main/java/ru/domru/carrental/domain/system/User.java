@@ -15,12 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -29,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @Entity
 @Table(name="\"USER\"")
 @NamedQueries({ @NamedQuery(name = "User.findAll", query = "select o from User o") })
+@Audited
 public class User implements Serializable {
     private static final long serialVersionUID = 63592899178651170L;
     
@@ -42,10 +44,6 @@ public class User implements Serializable {
     private String descr;
 
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    private List<History> historyList;
-    
     @Column(name = "NAME", nullable = false)
     @NotNull
     @Size(min=2, max=32)
@@ -54,6 +52,7 @@ public class User implements Serializable {
     @Column(name = "PASS", nullable = false)
     @JsonProperty(access=Access.WRITE_ONLY)
     @NotNull
+    @NotAudited
     private String password;
 
     @JsonIgnore
@@ -86,26 +85,6 @@ public class User implements Serializable {
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
-    }
-
-    public List<History> getHistoryList() {
-        return historyList;
-    }
-
-    public void setHistoryList(List<History> historyList) {
-        this.historyList = historyList;
-    }
-
-    public History addHistory(History history) {
-        getHistoryList().add(history);
-        history.setUser(this);
-        return history;
-    }
-
-    public History removeHistory(History history) {
-        getHistoryList().remove(history);
-        history.setUser(null);
-        return history;
     }
 
 	public String getName() {

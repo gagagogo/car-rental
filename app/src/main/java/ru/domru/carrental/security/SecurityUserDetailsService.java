@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,15 +31,18 @@ public class SecurityUserDetailsService implements UserDetailsService {
 		User user = userService.findUserByUsername(username);
 		
 		if(null==user) throw new UsernameNotFoundException("Username not found" + username);
+		
+		userService.setCurrentUser(user);
 
 		List<GrantedAuthority> authorities = 
 				user.getRoleList().stream()
 				.map(role->new SimpleGrantedAuthority(role.getName()))
 				.collect(Collectors.toList());
 		
+		
         return new org.springframework
         		.security.core.userdetails.User(username, user.getPassword(), authorities);
-
+        
 	}
 
 }

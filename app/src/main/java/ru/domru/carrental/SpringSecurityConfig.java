@@ -1,7 +1,10 @@
 package ru.domru.carrental;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +15,7 @@ import com.allanditzel.springframework.security.web.csrf.CsrfTokenResponseHeader
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 
+import ru.domru.carrental.domain.system.User;
 import ru.domru.carrental.security.AjaxAuthenticationErrorHandler;
 import ru.domru.carrental.security.SecurityUserDetailsService;
 
@@ -54,7 +58,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new StandardPasswordEncoder());
 	}
 	
-	
-
-
 }
