@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<title>Send tracking poin</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("POST", "api/point/write");
+			xmlhttp.setRequestHeader("Content-Type", "application/json");
+			var vehicleTrackPoint = {
+					idVehicleTrackPoint:null,
+					creationTime: new Date(),
+					creationDate: new Date(),
+					idVehicle:2,
+					latitudes:0.845654,
+					longitudes:0.3434534
+			}
+			xmlhttp.send(JSON.stringify(vehicleTrackPoint));
+		</script>
+	</body>
+</html>
