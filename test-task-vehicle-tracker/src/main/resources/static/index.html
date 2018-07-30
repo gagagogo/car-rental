@@ -1,0 +1,28 @@
+<html>
+	<head>	
+		<title>Send tracking point</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var xhr = new XMLHttpRequest();
+			var url = "http://localhost:8080/api/vehicle-tracker/point/write";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.onreadystatechange = function () {
+			    if (xhr.readyState === 4 && xhr.status === 200) {
+			        var json = JSON.parse(xhr.responseText);
+			        console.log(json.email + ", " + json.password);
+			    }
+			};
+			var vehicleTrackPoint = {
+					'idVehicleTrackPoint':null,
+					'creationTime':new Date(),
+					'creationDate':new Date(),
+					'latitudes':0.8216516,
+					'longitudes':0.56465486					
+			}
+			var data = JSON.stringify(vehicleTrackPoint);
+			xhr.send(data);
+		</script>
+	</body>
+</html>
