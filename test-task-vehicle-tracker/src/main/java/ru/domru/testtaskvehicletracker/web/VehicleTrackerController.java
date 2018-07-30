@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
-import ru.domru.testtaskvehicletracker.VehicleTrackPoint.VehicleTrackPoint;
-import ru.domru.testtaskvehicletracker.messaging.VehicleTrackingPoint;
 
 import reactor.core.publisher.Mono;
 import ru.domru.testtaskvehicletracker.VehicleTrackPoint.VehicleTrackPoint;
@@ -22,7 +20,6 @@ import ru.domru.testtaskvehicletracker.VehicleTrackPoint.messaging.VehicleTrackP
  * to DB.
  * */
 @RestController
-<<<<<<< HEAD
 @RequestMapping("/api")
 @EnableBinding(VehicleTrackPointProducer.Source.class)
 public class VehicleTrackerController {
@@ -36,21 +33,4 @@ public class VehicleTrackerController {
 		if(res) return Mono.just(ResponseEntity.ok(true));
 		return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 	}
-=======
-@RequestMapping("api/vehicle-tracker")
-@EnableBinding(VehicleTrackingPoint.Sink.class)
-public class VehicleTrackerController {
-	
-	@Autowired
-	VehicleTrackingPoint.Sink vehicleTrackingMessageInput;
-	
-	@RequestMapping("point/write")
-	Mono<ResponseEntity<String>> writePoint(@RequestBody VehicleTrackPoint vehicleTrackPoint){
-		//boolean res = vehicleTrackingMessageInput.output().send(MessageBuilder.withPayload(vehicleTrackPoint).build());
-		//if(res) 
-			return Mono.just(ResponseEntity.ok("Successfuly saved"));
-		//return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-	}
-
->>>>>>> 51f3ebfaad6ded405ead39b34c7f5c5b099fae5b
 }
