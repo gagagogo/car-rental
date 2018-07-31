@@ -1,6 +1,7 @@
 package ru.domru.testtaskvehicletracker.VehicleTrackPoint;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class VehicleTrackPoint {
 	private Timestamp creationTime;
 	
 	@Column(name="CREATION_DATE")
-	private Timestamp creationDate;
+	private Date creationDate;
 	
 	@Column(name="ID_VEHICLE")
 	private int idVehicle;
@@ -41,7 +42,7 @@ public class VehicleTrackPoint {
 	
 	
 
-	public VehicleTrackPoint(Long idVehicleTrackPoint, Timestamp creationTime, Timestamp creationDate, int idVehicle,
+	public VehicleTrackPoint(Long idVehicleTrackPoint, Timestamp creationTime, Date creationDate, int idVehicle,
 			BigDecimal latitudes, BigDecimal longitudes) {
 		this.idVehicleTrackPoint = idVehicleTrackPoint;
 		this.creationTime = creationTime;
@@ -74,11 +75,11 @@ public class VehicleTrackPoint {
 		this.creationTime = creationTime;
 	}
 
-	public Timestamp getCreationDate() {
+	public Date getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Timestamp creationDate) {
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
