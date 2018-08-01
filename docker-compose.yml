@@ -16,7 +16,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 0123456789
     ports: 
-    - "3306:3307"
+    - "3307:3306"
     volumes:
       - ./db/data/:/var/lib/mysql
   redis:
@@ -37,7 +37,8 @@ services:
       DB_PASS: 0123456789
       DB_URL: "jdbc:mysql://db:3306/car_rental?useUnicode=yes&characterEncoding=UTF-8"
       REDIS_URL: redis://redis:6379
-      VIRTUAL_HOST: localhost
+      VIRTUAL_HOST: car-rental-web-ui
+      VIRTUAL_HOST_LOCATION: "/"
     ports:
       - "8080:8080"
     links:
@@ -50,9 +51,10 @@ services:
       DB_PASS: 0123456789
       DB_URL: "jdbc:mysql://db:3306/car_rental_tracking?useUnicode=yes&characterEncoding=UTF-8"
       REDIS_URL: redis://redis:6379
-      VIRTUAL_HOST: localhost
+      VIRTUAL_HOST: car-rental-tracking
+      VIRTUAL_HOST_LOCATION: "^/api/"
     ports:
-      - "8090:8080"
+      - "8090:8090"
     links:
       - db
       - rabbitmq
