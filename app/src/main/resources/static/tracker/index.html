@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Send tracking poin</title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<h3>Внесите идентификатор транспортного средства для отправки его местоположения</h3>
+		<label>
+			Идентификатор транспортного средства (числовой)
+			<input id="vehicleId" type="number" min="1">
+		</label>
+		<script type="text/javascript">
+			
+			var options = {
+				  enableHighAccuracy: true,
+				  timeout: 5000,
+				  maximumAge: 0
+				};
+
+				function success(pos) {
+				  var crd = pos.coords;
+				  
+				  	var vehicleId = parseInt(document.getElementById("vehicleId").value);
+				  	
+				  	if(isNaN(vehicleId))return;
+				  	
+
+
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.open("POST", "/api/point/write");
+					xmlhttp.setRequestHeader("Content-Type", "application/json");
+					var vehicleTrackPoint = {
+							idVehicleTrackPoint:null,
+							creationTime: new Date(),
+							creationDate: new Date(),
+							idVehicle:2,
+							latitudes:crd.latitude,
+							longitudes:crd.longitude
+					}
+					
+					xmlhttp.send(JSON.stringify(vehicleTrackPoint));
+				};
+
+				function error(err) {
+				  console.warn(`ERROR(${err.code}): ${err.message}`);
+				};
+
+			
+			
+				setInterval(function(){
+					navigator.geolocation.getCurrentPosition(success, error, options);				
+				},5000);
+			
+		</script>
+	</body>
+</html>
