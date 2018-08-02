@@ -7,9 +7,14 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    links:
-      - car-rental-web-ui
-      - car-rental-tracking              
+    depends_on:
+      - car-rental-web-ui  
+      - car-rental-tracking 
+    networks:
+      - car-net
+#    links:
+#      - car-rental-web-ui
+#      - car-rental-tracking
   db:
     image: mysql:5.7.22
     restart: always
@@ -19,17 +24,23 @@ services:
     - "3307:3306"
     volumes:
       - ./db/data/:/var/lib/mysql
+    networks:
+      - car-net
   redis:
     image: redis
     restart: always
     ports: 
     - "6379:6379"
+    networks:
+      - car-net
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - car-net
   car-rental-web-ui:
     image: car-rental-web-ui:base
     environment:
@@ -41,9 +52,16 @@ services:
       VIRTUAL_HOST_LOCATION: "/"
     ports:
       - "8080:8080"
-    links:
-      - db
+    deploy:
+      replicas: 2
+    depends_on:
       - redis
+      - db  
+    networks:
+      - car-net
+#    links:
+#      - db
+#      - redis
   car-rental-tracking:
     image: car-rental-tracking:base
     environment:
@@ -55,9 +73,16 @@ services:
       VIRTUAL_HOST_LOCATION: "^~ /api/point/write"
     ports:
       - "8090:8090"
-    links:
-      - db
+    deploy:
+      replicas: 2
+    depends_on:
+      - redis
       - rabbitmq
+    networks:
+      - car-net
+#    links:
+#      - db
+#      - rabbitmq
 #  ci:
 #    image: jenkins
 #    restart: always
@@ -66,3 +91,6 @@ services:
 #    - "50000:50000"
 #    volumes:
 #      - ./ci/data/:/var/jenkins_home
+
+networks:
+  car-net:
