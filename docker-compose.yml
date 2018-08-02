@@ -2,7 +2,7 @@ version: "3.1"
 
 services:
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    image: car-rental-nginx:base
     ports:
       - "80:80"
     volumes:
@@ -52,7 +52,7 @@ services:
       DB_URL: "jdbc:mysql://db:3306/car_rental_tracking?useUnicode=yes&characterEncoding=UTF-8"
       REDIS_URL: redis://redis:6379
       VIRTUAL_HOST: car-rental-tracking
-      VIRTUAL_HOST_LOCATION: "^/api/"
+      VIRTUAL_HOST_LOCATION: "^~ /api/point/write"
     ports:
       - "8090:8090"
     links:
