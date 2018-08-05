@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: ru.domru.carrental.CarRentalApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.553 s - in ru.domru.carrental.CarRentalApplicationTests

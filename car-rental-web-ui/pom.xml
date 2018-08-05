@@ -4,18 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ru.domru</groupId>
-	<artifactId>test-task</artifactId>
+	<artifactId>car-rental-web-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>car-rental</name>
+	<name>car-rental-web-ui</name>
 	<description>Test task for java employee</description>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.3.BUILD-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<groupId>ru.domru</groupId>
+		<artifactId>car-rental</artifactId>
+		<relativePath>../pom.xml</relativePath>
+		<version>0.0.1-SNAPSHOT</version>		
 	</parent>
 
 	<properties>
