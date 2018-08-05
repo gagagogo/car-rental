@@ -22,8 +22,8 @@ pipeline {
        stage('Deploy contaners'){
             agent any
             steps {
-                sh 'docker service update --image car-rental-web-ui:base --force car-rental-web-ui'
-                sh 'docker service update --image car-rental-tracking:base --force car-rental-tracking'
+                sh 'docker service update --image car-rental-web-ui:base --force car-rental_car-rental-web-ui'
+                sh 'docker service update --image car-rental-tracking:base --force car-rental_car-rental-tracking'
             }
        }         
     }
