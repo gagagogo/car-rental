@@ -8,8 +8,10 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'mvn -B -DskipTests clean package' 
+                sh 'mvn -B -DskipTests clean package'
+                sh 'docker image build -t car-rental-web-ui:base ./car-rental-web-ui'
+                sh 'docker image build -t car-rental-tracking:base ./test-task-vehicle-tracker'
             }
-        }
+        }        
     }
 }
