@@ -109,8 +109,36 @@
     
 	</dependencies>
 
+	<scm>
+		<connection>scm:git:https://github.com/gagagogo/car-rental.git</connection>
+		<developerConnection>scm:git:https://github.com/gagagogo/car-rental.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/gagagogo/car-rental.git</url>
+	</scm>
 	<build>
+		 <finalName>${project.artifactId}-r${scmBranch}-${buildNumber}</finalName>
 		<plugins>
+				<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>				
+				<configuration>
+					<doCheck>false</doCheck>
+					<doUpdate>false</doUpdate>
+			      <format>{0,date,yyyy-MM-dd HH:mm:ss}</format>
+			      <items>
+			        <item>timestamp</item>
+			      </items>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

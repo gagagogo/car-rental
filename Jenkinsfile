@@ -17,7 +17,14 @@ pipeline {
             steps {
                 sh 'docker image build -t car-rental-web-ui:base ./car-rental-web-ui'
                 sh 'docker image build -t car-rental-tracking:base ./test-task-vehicle-tracker'
-            }       	
+            }
+       }         
+       stage('Deploy contaners'){
+            agent any
+            steps {
+                sh 'docker service update --image car-rental-web-ui:base --force car-rental-web-ui'
+                sh 'docker service update --image car-rental-tracking:base --force car-rental-tracking'
+            }
        }         
     }
 }
