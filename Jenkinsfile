@@ -1,6 +1,6 @@
 pipeline {
     stages {
-       	agent none
+        agent none
         stage('Build') { 
 			agent {
 		        docker {
@@ -13,7 +13,7 @@ pipeline {
             }
         }
        stage('Build docker contaners'){
-       		agent any
+            agent any
             steps {
                 sh 'docker image build -t car-rental-web-ui:base ./car-rental-web-ui'
                 sh 'docker image build -t car-rental-tracking:base ./test-task-vehicle-tracker'
