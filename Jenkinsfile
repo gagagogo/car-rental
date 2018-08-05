@@ -4,7 +4,7 @@ pipeline {
         stage('Build') { 
 			agent {
 		        docker {
-		            image 'maven:3-alpine' 
+		            image 'docker pull jlrigau/maven-git' 
 		            args '-v /root/.m2:/root/.m2' 
 		        }
 		    }
