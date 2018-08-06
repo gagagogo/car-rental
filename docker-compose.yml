@@ -14,11 +14,12 @@ services:
     image: mysql:5.7.22
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 0123456789
+      MYSQL_ROOT_PASSWORD: "0123456789"
     ports: 
     - "3307:3306"
     volumes:
       - ./db/data/:/var/lib/mysql
+      - ./db/schema:/docker-entrypoint-initdb.d
   redis:
     image: redis
     restart: always
@@ -63,7 +64,7 @@ services:
       - redis
       - rabbitmq
   ci:
-    image: jenkins
+    image: jenkinsci/blueocean
     restart: always
     ports: 
     - "8081:8080"
