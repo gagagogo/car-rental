@@ -527,6 +527,7 @@ angular.module('CarRental.controllers', ['spring-security-csrf-token-interceptor
 	};
 
 	var render =  function ( data, type, row, meta ) {
+		if(null==data)return data;
 		try{
 			var d = new Date(data);
 			var s = d.toLocaleDateString()+" "+d.toLocaleTimeString();
